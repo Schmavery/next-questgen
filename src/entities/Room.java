@@ -16,4 +16,10 @@ public class Room implements Visible {
 		return description;
 	}
 	
+	public String look(String object) {
+		return object;
+	}
+	
+	public int getX(){return x;}
+	public int getY(){return y;}
 }
