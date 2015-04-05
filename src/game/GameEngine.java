@@ -27,7 +27,7 @@ public class GameEngine {
 	public String read(){
 		System.out.print(">> ");
 		if (in.hasNext()){
-			return in.next();			
+			return in.nextLine();			
 		} else {
 			running = false;
 			return "";
@@ -41,6 +41,7 @@ public class GameEngine {
 		switch (tokens[0].toLowerCase()){
 		case "look":
 			if (tokens.length == 1){
+				System.out.println("one arg");
 				return state.getCurrRoom().look();
 			} else {
 				return state.getCurrRoom().look(tokens[1]);
@@ -63,8 +64,11 @@ public class GameEngine {
 			break;
 		}
 		if (dir != null){
-			state.move(dir);
-			return "You moved "+dir.name()+".\n"+state.getCurrRoom().look();
+			if (state.move(dir)){
+				return "You moved "+dir.name()+".\n"+state.getCurrRoom().look();				
+			} else {
+				return "You cannot move "+dir.name()+".";
+			}
 		}
 		return null;
 	}

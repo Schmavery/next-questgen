@@ -1,10 +1,9 @@
 package entities;
 
-public class Item implements Visible {
+public class Item extends Entity {
 
-	public String look() {
-		// TODO Auto-generated method stub
-		return null;
+	public Item(String name, String description) {
+		super(name, description);
 	}
 
 }

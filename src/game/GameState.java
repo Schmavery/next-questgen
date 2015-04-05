@@ -2,6 +2,7 @@ package game;
 
 import java.util.Random;
 
+import entities.Item;
 import entities.Room;
 import game.GameEngine.Direction;
 
@@ -12,11 +13,24 @@ public class GameState {
 	private Room currRoom;
 	private Random rand;
 	
+	private String[] testNouns = {"cat", "dog", "bicycle", "block of jello", "sword", "cannonball"};
+	private String[] testAdjs = {"red", "shiny", "blue", "expensive-looking", "sharp", "bizarre"};
+	private String[] testLocs = {" on a shelf.", " on the ground.", " lying abandoned.", " in the dust.", " nearby."};
+	
+	private String rStr(String[] arr){
+		return arr[rand.nextInt(arr.length)];
+	}
+	
 	public GameState() {
 		rand = new Random();
 		for (int i = 0; i < GRID_WIDTH; i++) {
 			for (int j = 0; j < GRID_HEIGHT; j++) {
-				grid[i][j] = new Room("name", "this is room at " + i + ", " + j, i, j);
+				grid[i][j] = new Room("name", "This is the room at " + i + ", " + j, i, j);
+				for (int r = rand.nextInt(5); r > 0; r--){
+					String name = rStr(testAdjs)+" "+rStr(testNouns);
+					grid[i][j].addEntity(new Item(name, 
+							"You see a "+name+rStr(testLocs)));
+				}
 			}
 		}
 		currRoom = grid[rand.nextInt(GRID_WIDTH)][rand.nextInt(GRID_HEIGHT)];
