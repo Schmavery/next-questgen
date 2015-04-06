@@ -27,8 +27,9 @@ public class GameState {
 			for (int j = 0; j < GRID_HEIGHT; j++) {
 				grid[i][j] = new Room("name", "This is the room at " + i + ", " + j, i, j);
 				for (int r = rand.nextInt(5); r > 0; r--){
-					String name = rStr(testAdjs)+" "+rStr(testNouns);
-					grid[i][j].addEntity(new Item(name, 
+					String noun = rStr(testNouns);
+					String name = rStr(testAdjs)+" "+noun;
+					grid[i][j].addEntity(new Item(noun, name, 
 							"You see a "+name+rStr(testLocs)));
 				}
 			}

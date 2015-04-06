@@ -1,0 +1,31 @@
+{
+	"duck": {
+		"pre-modifiers": [
+			"amazing",
+			"quacking"
+		],
+		"post-modifiers": [
+			"confit",
+			"of doom",
+			""
+		],
+		"locations": [
+			"on a shelf",
+			"waddling around"
+		]
+	},
+	"spatula": {
+		"pre-modifiers": [
+			"wooden",
+			"sparkling"
+		],
+		"post-modifiers": [
+			"for frying eggs",
+			"of the sea"
+		],
+		"locations": [
+			"on a shelf",
+			"sticking out of the ground"
+		]
+	}
+}

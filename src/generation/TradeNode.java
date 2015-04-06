@@ -9,7 +9,8 @@ public class TradeNode {
 	// npc will give 'give' for item 'receive'.
 	public Item receive, give;
 	
-	public TradeNode (Item receive, Item give) {
+	public TradeNode (NPC npc, Item receive, Item give) {
+		this.npc = npc;
 		this.receive = receive;
 		this.give = give;
 	}
