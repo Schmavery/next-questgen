@@ -1,5 +1,7 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import entities.Item;
@@ -12,10 +14,11 @@ public class GameState {
 	private Room[][] grid = new Room[GRID_WIDTH][GRID_HEIGHT];
 	private Room currRoom;
 	private Random rand;
+	private List<Item> inventory;
 	
 	private String[] testNouns = {"cat", "dog", "bicycle", "block of jello", "sword", "cannonball"};
 	private String[] testAdjs = {"red", "shiny", "blue", "expensive-looking", "sharp", "bizarre"};
-	private String[] testLocs = {" on a shelf.", " on the ground.", " lying abandoned.", " in the dust.", " nearby."};
+	private String[] testLocs = {"on a shelf", "on the ground", "lying abandoned", "in the dust", "nearby"};
 	
 	private String rStr(String[] arr){
 		return arr[rand.nextInt(arr.length)];
@@ -23,14 +26,15 @@ public class GameState {
 	
 	public GameState() {
 		rand = new Random();
+		inventory = new ArrayList<>();
 		for (int i = 0; i < GRID_WIDTH; i++) {
 			for (int j = 0; j < GRID_HEIGHT; j++) {
-				grid[i][j] = new Room("name", "This is the room at " + i + ", " + j, i, j);
+				grid[i][j] = new Room(this, "name", "This is the room at " + i + ", " + j, i, j);
 				for (int r = rand.nextInt(5); r > 0; r--){
 					String noun = rStr(testNouns);
 					String name = rStr(testAdjs)+" "+noun;
 					grid[i][j].addEntity(new Item(noun, name, 
-							"You see a "+name+rStr(testLocs)));
+							"You see a "+name+" "+rStr(testLocs)+"."));
 				}
 			}
 		}
@@ -47,6 +51,7 @@ public class GameState {
 	public Room getCurrRoom(){
 		return currRoom;
 	}
+
 	
 	public boolean move(Direction dir){
 		int newX, newY;
@@ -76,6 +81,25 @@ public class GameState {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+
+	public List<Item> getInventory(){
+		return inventory;
+	}
+	
+	public String lookInventory(){
+		if (inventory.isEmpty()){
+			return "You aren't carrying anything.";
+		} else {
+			StringBuilder sb = new StringBuilder();
+			sb.append("You are currently carrying:");
+			for (Item i : inventory){
+				sb.append("\n\t");
+				sb.append(i.getName());
+			}
+			return sb.toString();
 		}
 	}
 }

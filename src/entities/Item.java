@@ -5,6 +5,7 @@ public class Item extends Entity {
 	public Item(String coreNoun, String name, String description) {
 		super(name, description);
 		this.coreNoun = coreNoun;
+		setEntityType(EntityType.ITEM);
 	}
 	
 	public String getCoreNoun() {

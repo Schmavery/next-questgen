@@ -1,30 +1,50 @@
 package entities;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+
+import entities.Entity.EntityType;
+import game.GameEngine.Direction;
+import game.GameState;
+import game.Utils;
 
 public class Room implements Visible {
 
 	private int x, y;
 	private String name, description;
 	private List<Entity> entities;
+	private GameState gs;
 	
-	public Room(String name, String description, int x, int y) {
+	public Room(GameState gs, String name, String description, int x, int y) {
 		entities = new ArrayList<>();
 		this.name = name;
 		this.description = description;
 		this.x = x;
 		this.y = y;
+		this.gs = gs;
 	}
 	
 	public void addEntity(Entity e){
 		entities.add(e);
 	}
 	
+	public void removeEntity(Entity e){
+		entities.remove(e);
+	}
+	
 	public String look() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(description);
+		int[] offsets = {0, -1, 0, 1};
+		for (int i = 0; i < offsets.length; i++){
+			int newX = x + offsets[i];
+			int newY = y + offsets[(i+1)%offsets.length];
+			if (gs.getRoom(newX, newY) != null){
+				sb.append("\n");
+				// Don't kill me I swear I'm innocent
+				sb.append("There is an exit to the "+Direction.values()[i].name().toLowerCase()+".");
+			}
+		}
 		for (Entity e : entities){
 			sb.append("\n");
 			sb.append(e.look());
@@ -39,31 +59,16 @@ public class Room implements Visible {
 		} else if (matches.isEmpty()){
 			return "You can't see one of those here.";
 		} else {
-			StringBuilder sb = new StringBuilder();
-			sb.append("Do you mean the ");
-			Entity prev = null;
-			for (Entity e : matches){
-				if (prev != null){
-					sb.append(prev.getName());
-					sb.append(", ");			
-				}
-				prev = e;
-			}
-			sb.append("or ");
-			sb.append(prev.getName());
-			sb.append("?");
-			return sb.toString();
+			return Utils.multiMatchResponse(matches);
 		}
 	}
 	
-	private List<Entity> getMatches(String pattern){
-		List<Entity> matches = new LinkedList<>();
-		for (Entity e : entities){
-			if (e.getDescription().toLowerCase().contains(pattern.toLowerCase())){
-				matches.add(e);
-			}
-		}
-		return matches;
+	public List<Entity> getMatches(String pattern){
+		return Utils.getMatches(pattern, null, entities);
+	}
+	
+	public List<Entity> getMatches(String pattern, EntityType type){
+		return Utils.getMatches(pattern, type, entities);
 	}
 	
 	public int getX(){return x;}
