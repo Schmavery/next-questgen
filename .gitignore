@@ -1,1 +1,5 @@
 /bin
+.classpath
+.settings
+.DS_STORE
+*/.DS_STORE

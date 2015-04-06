@@ -1,0 +1,20 @@
+{
+	"baker": {
+		"gives":[
+			"duck",
+			"giraffe"
+		],
+		"takes":[
+			"eggs"
+		]
+	},
+	"shopkeeper": {
+		"gives":[
+			"pots"
+		],
+		"takes":[
+			"money",
+			"gold"
+		]
+	}
+}
