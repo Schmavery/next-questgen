@@ -10,7 +10,7 @@ public class GameTree {
 	private TradeNode root;
 	private final int TREE_DEPTH = 2;
 	private final int MAX_RESTART_COUNT = 1000;
-	private final int MAX_TRY_COUNT = 1000;
+	private final int MAX_TRY_COUNT = 100;
 	private TradeGenerator generator;
 	public static void main(String[] args) {
 		GameTree gt = new GameTree();	
@@ -33,7 +33,6 @@ public class GameTree {
 		if (restartCount > MAX_RESTART_COUNT)
 			return false;
 		root = generator.generateRootTradeNode();
-		System.out.println("ROOT: " + root);
 		TradeNode prev = root;
 		TradeNode node = null;
 		for (int i = 0; i < TREE_DEPTH; i++) {
@@ -46,7 +45,6 @@ public class GameTree {
 				node = generator.generateTradeNode(prev);
 				tryCount++;
 			}
-			System.out.println(node.toString());
 			prev.childNode = node;
 			node.parentNode = prev;
 			prev = node;

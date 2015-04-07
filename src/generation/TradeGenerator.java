@@ -124,10 +124,6 @@ public class TradeGenerator {
 	
 	private NPC getRandomNPC(ArrayList<NPC> npcs) {
 		if (npcs == null || npcs.size() == 0) return null;
-		System.out.println("Can only use npcs:");
-		for (NPC npc : npcs) {
-			System.out.println(npc.getName());
-		}
 		return npcs.get(rand.nextInt(npcs.size()));
 	}
 	
