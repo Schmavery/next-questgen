@@ -3,13 +3,14 @@ package entities;
 public abstract class Entity implements Visible{
 	public static enum EntityType {ITEM, NPC};
 	private EntityType type;
-	private String name, description;
+	private String identifier, name, description;
 	
 	public String look() {
 		return description;
 	}
 	
-	public Entity(String name, String description){
+	public Entity(String identifier, String name, String description){
+		this.identifier = identifier;
 		this.name = name;
 		this.description = description;
 	}
@@ -36,5 +37,9 @@ public abstract class Entity implements Visible{
 	
 	public String getName(){
 		return name;
+	}
+	
+	public String getIdentifier() {
+		return identifier;
 	}
 }

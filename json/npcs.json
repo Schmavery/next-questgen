@@ -1,0 +1,56 @@
+{
+	
+	"baker": {
+		"pre-modifiers": [
+			"friendly",
+			"snappy"
+		],
+		"post-modifiers": [
+			""
+		],
+		"locations": [
+			"working at the oven",
+			"waddling around"
+		],
+		"request-dialogs": [
+			"Please bring me a [give], I need it for my sick mother",
+			"Maybe I could help you if you can fine me a [give]"
+		],
+		"accept-dialogs": [
+			"Awesome! What a great [give], here take my [take]"
+		]
+	},
+	"shopkeeper": {
+		"pre-modifiers": [
+			"sharp-eyed"
+		],
+		"request-dialogs": [
+			"I'll give you a [take] for [give]"
+		],
+		"accept-dialogs": [
+			"Awesome! What a great [give], here take my [take]"
+		]
+		},
+
+	"dragon": {
+		"pre-modifiers": [
+			"fire-breathing",
+			"roaring",
+			"furious"
+		],
+		"post-modifiers": [
+			"charging you",
+			"asleep"
+		],
+		"locations": [
+			"in his lair",
+			""
+		],
+		"request-dialogs": [
+			"The dragon attacks you, you barely escape with your life. You sense it has a [give] vulnerability"
+		],
+		"accept-dialogs": [
+			"The dragon recoils in fear when it realizes you've got a [give]. You attack it, and see it disintegrate into acid"
+		]
+	}
+}

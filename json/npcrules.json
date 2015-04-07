@@ -2,19 +2,32 @@
 	"baker": {
 		"gives":[
 			"duck",
-			"giraffe"
+			"bread",
+			"money"
 		],
 		"takes":[
-			"eggs"
+			"pot"
 		]
 	},
 	"shopkeeper": {
 		"gives":[
-			"pots"
+			"pot",
+			"spatula"
 		],
 		"takes":[
 			"money",
-			"gold"
+			"gold piece"
 		]
+	},
+	"dragon": {
+		"gives":[
+			"gold piece"
+		],
+		"takes": [
+			"sword",
+			"pot",
+			"duck"
+		]
+
 	}
 }

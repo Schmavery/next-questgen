@@ -45,31 +45,38 @@ public class ItemGenerator {
 			preMods = itemRules.getJsonArray("pre-modifiers");
 			postMods = itemRules.getJsonArray("post-modifiers");
 			locs = itemRules.getJsonArray("locations");
-			for (JsonValue preModVal : preMods) {
-				String preMod = ((JsonString)preModVal).getString();
-				ArrayList<String> list = preModsMap.get(noun);
-				if (list == null) {
-					list = new ArrayList<>();
-					preModsMap.put(noun, list);
+			if (preMods != null) {
+				for (JsonValue preModVal : preMods) {
+					String preMod = ((JsonString)preModVal).getString();
+					ArrayList<String> list = preModsMap.get(noun);
+					if (list == null) {
+						list = new ArrayList<>();
+						preModsMap.put(noun, list);
+					}
+					list.add(preMod);
 				}
-				list.add(preMod);
 			}
-			for (JsonValue postModVal : postMods) {
-				String postMod = ((JsonString)postModVal).getString();
-				ArrayList<String> list = postModsMap.get(noun);
-				if (list == null) {
-					list = new ArrayList<>();
-					postModsMap.put(noun, list);
-				}				list.add(postMod);
-			}
-			for (JsonValue locVal : locs) {
-				String loc = ((JsonString)locVal).getString();
-				ArrayList<String> list = locsMap.get(noun);
-				if (list == null) {
-					list = new ArrayList<>();
-					locsMap.put(noun, list);
+			if (postMods != null) {
+				for (JsonValue postModVal : postMods) {
+					String postMod = ((JsonString)postModVal).getString();
+					ArrayList<String> list = postModsMap.get(noun);
+					if (list == null) {
+						list = new ArrayList<>();
+						postModsMap.put(noun, list);
+					}
+					list.add(postMod);
 				}
-				list.add(loc);
+			}
+			if (locs != null) {
+				for (JsonValue locVal : locs) {
+					String loc = ((JsonString)locVal).getString();
+					ArrayList<String> list = locsMap.get(noun);
+					if (list == null) {
+						list = new ArrayList<>();
+						locsMap.put(noun, list);
+					}
+					list.add(loc);
+				}
 			}
 		}
 	}

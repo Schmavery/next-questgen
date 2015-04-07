@@ -14,6 +14,56 @@
 			"waddling around"
 		]
 	},
+	"giraffe": {
+		"pre-modifiers": [
+			"lanky",
+			"spotted"
+		],
+		"post-modifiers": [
+			"tripping over itself",
+			"trying to do the macarena",
+			""
+		],
+		"locations": [
+			"on stilts"
+		]
+	},
+	"eggs": {
+		"pre-modifiers": [
+			"spoiled",
+			"fresh"
+		],
+		"post-modifiers": [
+			""
+		],
+		"locations": [
+			"in a basket"
+		]
+	},
+	"flour": {
+		"pre-modifiers": [
+			"white",
+			"whole-wheat"
+		],
+		"post-modifiers": [
+			""
+		],
+		"locations": [
+			""
+		]
+	},
+	"bread": {
+		"pre-modifiers": [
+			"lumpy",
+			"delicious"
+		],
+		"post-modifiers": [
+			""
+		],
+		"locations": [
+			""
+		]
+	},
 	"spatula": {
 		"pre-modifiers": [
 			"wooden",
@@ -26,6 +76,30 @@
 		"locations": [
 			"on a shelf",
 			"sticking out of the ground"
+		]
+	},
+	"money": {
+		"pre-modifiers": [
+			"big bag",
+			"small pouch"
+		]
+	},
+	"gold piece": {
+		"pre-modifiers": [
+			"glittering",
+			"pure"
+		]
+	},
+	"sword": {
+		"pre-modifiers": [
+			"mighty",
+			"rusty"
+		]
+	},
+	"pot": {
+		"pre-modifiers": [
+			"rusty",
+			"solid"
 		]
 	}
 }
