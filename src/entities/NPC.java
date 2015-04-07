@@ -32,8 +32,8 @@ public class NPC extends Entity {
 		return tradeCompleted;
 	}
 	
-	public Item getRewardItem() {
-		return reward;
+	public Item getRequiredItem() {
+		return requires;
 	}
 	
 	public Item trade(Item i){

@@ -45,6 +45,7 @@ public class GameEngine {
 		if (tokens.length == 0) return "";
 		Direction dir = null;
 		List<Entity> matches;
+		String [] split = null;
 		switch (tokens[0].toLowerCase()){
 		case "look":
 		case "l":
@@ -66,9 +67,10 @@ public class GameEngine {
 				return Utils.multiMatchResponse(matches);
 			}
 		case "give":
-			String[] split = Utils.stripFirst(tokens).split("\\s+to\\s+");
+			split = Utils.stripFirst(tokens).split("\\s+to\\s+");
 		case "trade":
-			split = Utils.stripFirst(tokens).split("\\s+with\\s+");
+			if (split == null)
+				split = Utils.stripFirst(tokens).split("\\s+with\\s+");
 			if (split.length == 2){
 				// First element is item, second is NPC target.
 				List<Entity> itemMatch = Utils.getMatches(split[0], EntityType.ITEM, state.getInventory());
@@ -90,9 +92,10 @@ public class GameEngine {
 						if (npc.tradeCompleted()) {
 							return "The " + npc.getName() + " has already got what he needs.";
 						} else {
-							return "No no no! The " + npc.getName() + " wants a " + npc.getRewardItem().getName() + ".";
+							return "No no no! The " + npc.getName() + " wants a " + npc.getRequiredItem().getName() + ".";
 						}
 					}
+					state.getInventory().remove(oldItem);
 					state.getInventory().add(newItem);
 					return "You give the "+oldItem.getName()+" to the "+npc.getName()+
 							" and recieve a "+newItem.getName()+".";
