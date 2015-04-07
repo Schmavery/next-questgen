@@ -12,10 +12,11 @@ public class GameTree {
 	private final int MAX_RESTART_COUNT = 1000;
 	private final int MAX_TRY_COUNT = 100;
 	private TradeGenerator generator;
-	public static void main(String[] args) {
-		GameTree gt = new GameTree();	
-		
-	}
+	
+//	public static void main(String[] args) {
+//		GameTree gt = new GameTree();	
+//	}
+	
 	public GameTree() {
 		generator = new TradeGenerator("./json/npcrules.json", "./json/items.json", "./json/npcs.json");
 		if (!generateTree())
@@ -25,6 +26,10 @@ public class GameTree {
 			System.out.println(n.toString());
 			n = n.childNode;
 		}
+	}
+	
+	public TradeNode getRoot() {
+		return root;
 	}
 	
 	private int tryCount = 0;

@@ -4,17 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.sun.corba.se.impl.orbutil.graph.Node;
+
 import entities.Item;
 import entities.Room;
 import game.GameEngine.Direction;
+import generation.GameTree;
+import generation.TradeNode;
 
 public class GameState {
-	public static final int GRID_WIDTH = 10;
-	public static final int GRID_HEIGHT = 10;
+	public static final int GRID_WIDTH = 2;
+	public static final int GRID_HEIGHT = 2;
 	private Room[][] grid = new Room[GRID_WIDTH][GRID_HEIGHT];
 	private Room currRoom;
 	private Random rand;
-	private List<Item> inventory;
+	private List<Item> inventory = new ArrayList<>();;
 	
 	private String[] testNouns = {"cat", "dog", "bicycle", "block of jello", "sword", "cannonball"};
 	private String[] testAdjs = {"red", "shiny", "blue", "expensive-looking", "sharp", "bizarre"};
@@ -26,17 +30,29 @@ public class GameState {
 	
 	public GameState() {
 		rand = new Random();
-		inventory = new ArrayList<>();
+		
 		for (int i = 0; i < GRID_WIDTH; i++) {
 			for (int j = 0; j < GRID_HEIGHT; j++) {
 				grid[i][j] = new Room(this, "name", "This is the room at " + i + ", " + j, i, j);
-				for (int r = rand.nextInt(5); r > 0; r--){
-					String noun = rStr(testNouns);
-					String name = rStr(testAdjs)+" "+noun;
-					grid[i][j].addEntity(new Item(noun, name, 
-							"You see a "+name+" "+rStr(testLocs)+"."));
-				}
+//				for (int r = rand.nextInt(5); r > 0; r--){
+//					String noun = rStr(testNouns);
+//					String name = rStr(testAdjs)+" "+noun;
+//					grid[i][j].addEntity(new Item(noun, name, 
+//							"You see a "+name+" "+rStr(testLocs)+"."));
+//				}
 			}
+		}
+		
+		GameTree gameTree = new GameTree();
+		TradeNode node = gameTree.getRoot();
+		while (node != null) {
+			node.npc.setTradeRule(node);
+			grid[rand.nextInt(GRID_WIDTH)][rand.nextInt(GRID_HEIGHT)].addEntity(node.npc);
+			if (node.childNode == null) {
+//				grid[5][5].addEntity(node.receive);
+				grid[rand.nextInt(GRID_WIDTH)][rand.nextInt(GRID_HEIGHT)].addEntity(node.receive);
+			}
+			node = node.childNode;
 		}
 		currRoom = grid[rand.nextInt(GRID_WIDTH)][rand.nextInt(GRID_HEIGHT)];
 	}

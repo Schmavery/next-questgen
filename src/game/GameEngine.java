@@ -83,10 +83,19 @@ public class GameEngine {
 					return Utils.multiMatchResponse(itemMatch);
 				} else {
 					Item oldItem = (Item) itemMatch.get(0);
-					Item newItem = ((NPC) (npcMatch.get(0))).trade(oldItem);
+					NPC npc = (NPC) (npcMatch.get(0));
+					
+					Item newItem = npc.trade(oldItem);
+					if (newItem == null) {
+						if (npc.tradeCompleted()) {
+							return "The " + npc.getName() + " has already got what he needs.";
+						} else {
+							return "No no no! The " + npc.getName() + " wants a " + npc.getRewardItem().getName() + ".";
+						}
+					}
 					state.getInventory().add(newItem);
-					return "You give the "+oldItem.getName()+" to the "+npcMatch.get(0).getName()+
-							"and recieve a "+newItem.getName()+".";
+					return "You give the "+oldItem.getName()+" to the "+npc.getName()+
+							" and recieve a "+newItem.getName()+".";
 				}
 			}
 			break;

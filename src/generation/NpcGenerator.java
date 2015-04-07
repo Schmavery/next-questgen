@@ -122,7 +122,8 @@ public class NpcGenerator {
 		return npc;
 	}
 
-	
+//	requestDialogMap = new HashMap<>();
+//	private HashMap<String, ArrayList<String>> acceptDialogMap
 	private NPC generateNPC(String name) {
 		String preString = getRandom(preModsMap.get(name)) + " ";
 		if (preString.length() <= 1) preString = "";
@@ -130,9 +131,13 @@ public class NpcGenerator {
 		if (postString.length() <= 1) postString = "";
 		String locString = " " + getRandom(locsMap.get(name));
 		if (locString.length() <= 1) locString = "";
+		String requestDialog = " " + getRandom(requestDialogMap.get(name));
+		if (requestDialog.length() <= 1) requestDialog = "";
+		String acceptDialog = " " + getRandom(acceptDialogMap.get(name));
+		if (acceptDialog.length() <= 1) acceptDialog = "";
 		String fullName = preString+name+postString;
 
-		return new NPC(name, fullName, "You see a "+name+locString);
+		return new NPC(name, fullName, "You see a "+name+locString, requestDialog, acceptDialog);
 	}
 	
 	private String getRandom(ArrayList<String> list) {
