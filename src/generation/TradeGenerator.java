@@ -17,8 +17,6 @@ import entities.NPC;
 public class TradeGenerator {
 // TODO: ensure items do not appear twice in tree (or might end up with cycles)	
 	//	 construct the hashmaps
-	private HashMap<String, Item> items = new HashMap<>();
-	private HashMap<String, NPC> npcs = new HashMap<>();
 	
 	private ItemGenerator itemGenerator;
 	private NpcGenerator npcGenerator;
@@ -48,10 +46,10 @@ public class TradeGenerator {
 			rules = object.getJsonObject(npcName);
 			givesArray = rules.getJsonArray("gives");
 			takesArray = rules.getJsonArray("takes");
-			NPC npc = getNpc(npcName);
+			NPC npc = npcGenerator.getNpc(npcName);
 			for (JsonValue gives : givesArray) {
 				String itemNoun = ((JsonString) gives).getString();
-				Item item = getItem(itemNoun);
+				Item item = itemGenerator.getItem(itemNoun);
 				ArrayList<NPC> list = givenByNpcs.get(item);
 				if (list == null) {
 					list = new ArrayList<>();
@@ -61,7 +59,7 @@ public class TradeGenerator {
 			}
 			for (JsonValue takes : takesArray) {
 				String itemNoun = ((JsonString) takes).getString();
-				Item item = getItem(itemNoun);
+				Item item = itemGenerator.getItem(itemNoun);
 				ArrayList<Item> list = npcTakes.get(npc);
 				if (list == null) {
 					list = new ArrayList<>();
@@ -71,12 +69,7 @@ public class TradeGenerator {
 			}
 		}
 	}
-	
-	// TODO: use the npcGenerator (this is meaningless)
-	private NPC getNpc (String npcName) {
-		return npcGenerator.generateNPC(npcName);
-	}
-	
+		
 	public TradeNode generateRootTradeNode() {
 		NPC npc = getRandomNPC(new ArrayList<>(npcTakes.keySet()));
 		Item receiveItem = getRandomItem(npcTakes.get(npc));
@@ -98,6 +91,7 @@ public class TradeGenerator {
 		}
 		ArrayList<NPC> npcCandidates = givenByNpcs.get(giveItem);
 		if (usedNpcs != null && npcCandidates != null) {
+			npcCandidates = (ArrayList<NPC>) npcCandidates.clone();
 			for (NPC npc : usedNpcs) {
 				if (npcCandidates.contains(npc))
 					npcCandidates.remove(npc);
@@ -109,6 +103,7 @@ public class TradeGenerator {
 		
 		ArrayList<Item> receiveItemCandidates = npcTakes.get(npc);
 		if (usedItems != null && receiveItemCandidates != null) {
+			receiveItemCandidates = (ArrayList<Item>) receiveItemCandidates.clone();
 			for (Item item : usedItems) {
 				if (receiveItemCandidates.contains(item))
 					receiveItemCandidates.remove(item);
@@ -132,12 +127,4 @@ public class TradeGenerator {
 		return items.get(rand.nextInt(items.size()));
 	}
 	
-	private Item getItem(String itemNoun) {
-		Item item = items.get(itemNoun);
-		if (item == null) {
-			item = itemGenerator.generateItem(itemNoun);
-			items.put(itemNoun, item);
-		}
-		return item;
-	}
 }

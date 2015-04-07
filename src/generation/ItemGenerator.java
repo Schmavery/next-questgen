@@ -17,7 +17,9 @@ import javax.json.JsonValue;
 import entities.Item;
 
 public class ItemGenerator {
-	
+	// Flyweight
+	private HashMap<String, Item> items = new HashMap<>();
+
 	private ArrayList<String> nouns = new ArrayList<>();
 	private HashMap<String, ArrayList<String>> preModsMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> postModsMap = new HashMap<>();
@@ -81,7 +83,17 @@ public class ItemGenerator {
 		}
 	}
 	
-	public Item generateItem(String noun) {
+	public Item getItem(String itemNoun) {
+		Item item = items.get(itemNoun);
+		if (item == null) {
+			item = generateItem(itemNoun);
+			items.put(itemNoun, item);
+		}
+		return item;
+	}
+
+	
+	private Item generateItem(String noun) {
 		String preString = getRandom(preModsMap.get(noun)) + " ";
 		if (preString.length() <= 1) preString = "";
 		String postString = " " + getRandom(postModsMap.get(noun));

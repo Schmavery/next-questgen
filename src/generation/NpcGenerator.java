@@ -14,11 +14,13 @@ import javax.json.JsonReader;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
+import entities.Item;
 import entities.NPC;
 
 
 public class NpcGenerator {
-	
+	private HashMap<String, NPC> npcs = new HashMap<>();
+
 	private ArrayList<String> npcNames = new ArrayList<>();
 	private HashMap<String, ArrayList<String>> preModsMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> postModsMap = new HashMap<>();
@@ -111,7 +113,17 @@ public class NpcGenerator {
 		}
 	}
 	
-	public NPC generateNPC(String name) {
+	public NPC getNpc (String npcName) {
+		NPC npc = npcs.get(npcName);
+		if (npc == null) {
+			npc = generateNPC(npcName);
+			npcs.put(npcName, npc);
+		}
+		return npc;
+	}
+
+	
+	private NPC generateNPC(String name) {
 		String preString = getRandom(preModsMap.get(name)) + " ";
 		if (preString.length() <= 1) preString = "";
 		String postString = " " + getRandom(postModsMap.get(name));
