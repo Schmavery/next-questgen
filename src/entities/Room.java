@@ -53,7 +53,7 @@ public class Room implements Visible {
 	}
 	
 	public String look(String object) {
-		List<Entity> matches = getMatches(object);
+		List<Entity> matches = getMatches(object, EntityType.ANY);
 		if (matches.size() == 1){
 			return matches.get(0).look();
 		} else if (matches.isEmpty()){
@@ -61,10 +61,6 @@ public class Room implements Visible {
 		} else {
 			return Utils.multiMatchResponse(matches);
 		}
-	}
-	
-	public List<Entity> getMatches(String pattern){
-		return Utils.getMatches(pattern, null, entities);
 	}
 	
 	public List<Entity> getMatches(String pattern, EntityType type){

@@ -31,7 +31,7 @@ public class Utils {
 	public static List<Entity> getMatches(String pattern, EntityType type, List<? extends Entity> entities){
 		List<Entity> matches = new LinkedList<>();
 		for (Entity e : entities){
-			if (e.getEntityType().equals(type)){
+			if (type.equals(EntityType.ANY) || e.getEntityType().equals(type)){
 				if (e.getDescription().toLowerCase().contains(pattern.toLowerCase())){
 					matches.add(e);
 				}				

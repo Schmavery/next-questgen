@@ -80,8 +80,8 @@
 	},
 	"money": {
 		"pre-modifiers": [
-			"big bag",
-			"small pouch"
+			"big bag of",
+			"small pouch of"
 		]
 	},
 	"gold piece": {

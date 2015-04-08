@@ -9,15 +9,15 @@
 			""
 		],
 		"locations": [
-			"working at the oven",
-			"waddling around"
+			"working at the oven.",
+			"waddling around."
 		],
 		"request-dialogs": [
-			"Please bring me a [give], I need it for my sick mother",
-			"Maybe I could help you if you can fine me a [give]"
+			"Please bring me a [give], I need it for my sick mother.",
+			"Maybe I could help you if you can find me a [give]."
 		],
 		"accept-dialogs": [
-			"Awesome! What a great [give], here take my [take]"
+			"Awesome! What a great [give], here take my [take]."
 		]
 	},
 	"shopkeeper": {
@@ -25,10 +25,10 @@
 			"sharp-eyed"
 		],
 		"request-dialogs": [
-			"I'll give you a [take] for [give]"
+			"I'll give you a [take] for [give]."
 		],
 		"accept-dialogs": [
-			"Awesome! What a great [give], here take my [take]"
+			"Awesome! What a great [give], here take my [take]."
 		]
 		},
 
@@ -43,14 +43,14 @@
 			"asleep"
 		],
 		"locations": [
-			"in his lair",
+			"in his lair.",
 			""
 		],
 		"request-dialogs": [
-			"The dragon attacks you, you barely escape with your life. You sense it has a [give] vulnerability"
+			"The dragon attacks you, you barely escape with your life. You sense it has a [give] vulnerability."
 		],
 		"accept-dialogs": [
-			"The dragon recoils in fear when it realizes you've got a [give]. You attack it, and see it disintegrate into acid"
+			"The dragon recoils in fear when it realizes you've got a [give]. You attack it, and see it disintegrate into acid."
 		]
 	}
 }

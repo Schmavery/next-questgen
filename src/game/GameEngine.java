@@ -47,6 +47,19 @@ public class GameEngine {
 		List<Entity> matches;
 		String [] split = null;
 		switch (tokens[0].toLowerCase()){
+		case "talk":
+			matches = state.getCurrRoom().getMatches(Utils.stripFirst(tokens), EntityType.ANY);
+			if (matches.isEmpty()){
+				return "You can't see that here.";
+			} else if (matches.size() == 1){
+				if (matches.get(0).getEntityType().equals(EntityType.ITEM)){
+					return "You can't talk to that";
+				} else {
+					return ((NPC) matches.get(0)).talk();					
+				}
+			} else {
+				return Utils.multiMatchResponse(matches);
+			}
 		case "look":
 		case "l":
 			if (tokens.length == 1){
@@ -92,13 +105,12 @@ public class GameEngine {
 						if (npc.tradeCompleted()) {
 							return "The " + npc.getName() + " has already got what he needs.";
 						} else {
-							return "No no no! The " + npc.getName() + " wants a " + npc.getRequiredItem().getName() + ".";
+							return "The " + npc.getName() + " doesn't want that.";
 						}
 					}
 					state.getInventory().remove(oldItem);
 					state.getInventory().add(newItem);
-					return "You give the "+oldItem.getName()+" to the "+npc.getName()+
-							" and recieve a "+newItem.getName()+".";
+					return npc.talk();
 				}
 			}
 			break;
