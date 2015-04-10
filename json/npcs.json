@@ -18,7 +18,8 @@
 		],
 		"accept-dialogs": [
 			"Awesome! What a great [give], here take my [take]."
-		]
+		],
+		"tags":["townsfolk"]
 	},
 	"shopkeeper": {
 		"pre-modifiers": [
@@ -29,8 +30,9 @@
 		],
 		"accept-dialogs": [
 			"Awesome! What a great [give], here take my [take]."
-		]
-		},
+		],
+		"tags":["monster"]
+	},
 
 	"dragon": {
 		"pre-modifiers": [
@@ -51,6 +53,7 @@
 		],
 		"accept-dialogs": [
 			"The dragon recoils in fear when it realizes you've got a [give]. You attack it, and see it disintegrate into acid."
-		]
+		],
+		"tags":["townsfolk"]
 	}
 }

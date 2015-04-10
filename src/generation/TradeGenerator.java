@@ -26,9 +26,9 @@ public class TradeGenerator {
 	
 	Random rand = new Random();
 	
-	public TradeGenerator (String tradeRulesFileName, String itemRulesFileName, String npcRulesFileName, String itemTagsJsonFileName) {
+	public TradeGenerator (String tradeRulesFileName, String itemRulesFileName, String npcRulesFileName, String itemTagsJsonFileName, String npcTagsJsonFileName) {
 		itemGenerator = new ItemGenerator(itemRulesFileName, itemTagsJsonFileName);
-		npcGenerator = new NpcGenerator(npcRulesFileName);
+		npcGenerator = new NpcGenerator(npcRulesFileName, npcTagsJsonFileName);
 		JsonReader jsonReader;
 		try {
 			jsonReader = Json.createReader(new FileReader(tradeRulesFileName));

@@ -27,10 +27,20 @@ public class NpcGenerator {
 	private HashMap<String, ArrayList<String>> locsMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> requestDialogMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> acceptDialogMap = new HashMap<>();
+	
+	private ArrayList<String> tags = new ArrayList<>();
+	private HashMap<String, ArrayList<String>> preModsTagMap = new HashMap<>();
+	private HashMap<String, ArrayList<String>> postModsTagMap = new HashMap<>();
+	private HashMap<String, ArrayList<String>> locsTagMap = new HashMap<>();
+	private HashMap<String, ArrayList<String>> requestDialogTagMap = new HashMap<>();
+	private HashMap<String, ArrayList<String>> acceptDialogTagMap = new HashMap<>();
+
+
 	private Random random;
 
-	public NpcGenerator (String npcRulesFileName) {
+	public NpcGenerator (String npcRulesFileName, String npcTagsJsonFileName) {
 		random = new Random();
+		loadNpcTagInfo(npcTagsJsonFileName);
 		JsonReader jsonReader;
 		try {
 			jsonReader = Json.createReader(new FileReader(npcRulesFileName));
@@ -46,6 +56,7 @@ public class NpcGenerator {
 		JsonArray locs;
 		JsonArray requestDialogs;
 		JsonArray acceptDialogs;
+		JsonArray npcTags;
 		JsonObject npcRules;
 		for (String name : nameSet) {
 			npcNames.add(name);
@@ -55,62 +66,128 @@ public class NpcGenerator {
 			locs = npcRules.getJsonArray("locations");
 			requestDialogs = npcRules.getJsonArray("request-dialogs");
 			acceptDialogs = npcRules.getJsonArray("accept-dialogs");
+			npcTags = npcRules.getJsonArray("tags");
 			if (preMods != null) {
 				for (JsonValue preModVal : preMods) {
 					String preMod = ((JsonString)preModVal).getString();
-					ArrayList<String> list = preModsMap.get(name);
-					if (list == null) {
-						list = new ArrayList<>();
-						preModsMap.put(name, list);
-					}
-					list.add(preMod);
+					addToHashmapList(name, preMod, preModsMap);
 				}
 			}
 			if (postMods != null) {
 				for (JsonValue postModVal : postMods) {
 					String postMod = ((JsonString)postModVal).getString();
-					ArrayList<String> list = postModsMap.get(name);
-					if (list == null) {
-						list = new ArrayList<>();
-						postModsMap.put(name, list);
-					}
-					list.add(postMod);
+					addToHashmapList(name, postMod, postModsMap);
 				}
 			}
 			if (locs != null) {
 				for (JsonValue locVal : locs) {
 					String loc = ((JsonString)locVal).getString();
-					ArrayList<String> list = locsMap.get(name);
-					if (list == null) {
-						list = new ArrayList<>();
-						locsMap.put(name, list);
-					}
-					list.add(loc);
+					addToHashmapList(name, loc, locsMap);
 				}
 			}
 			if (requestDialogs != null) {
 				for (JsonValue requestDialogVal : requestDialogs) {
 					String requestDialog = ((JsonString)requestDialogVal).getString();
-					ArrayList<String> list = requestDialogMap.get(name);
-					if (list == null) {
-						list = new ArrayList<>();
-						requestDialogMap.put(name, list);
-					}
-					list.add(requestDialog);
+					addToHashmapList(name, requestDialog, requestDialogMap);
 				}
 			}
 			if (acceptDialogs != null) {
 				for (JsonValue acceptDialogVal : acceptDialogs) {
 					String acceptDialog = ((JsonString)acceptDialogVal).getString();
-					ArrayList<String> list = acceptDialogMap.get(name);
-					if (list == null) {
-						list = new ArrayList<>();
-						acceptDialogMap.put(name, list);
-					}
-					list.add(acceptDialog);
+					addToHashmapList(name, acceptDialog, acceptDialogMap);
+				}
+			}
+			if (npcTags != null) {
+				for (JsonValue tagVal : npcTags) {
+					String tag = ((JsonString)tagVal).getString();
+					addToHashmapList(name, preModsTagMap.get(tag), preModsMap);
+					addToHashmapList(name, postModsTagMap.get(tag), postModsMap);
+					addToHashmapList(name, locsTagMap.get(tag), locsMap);
+					addToHashmapList(name, requestDialogTagMap.get(tag), requestDialogMap);
+					addToHashmapList(name, acceptDialogTagMap.get(tag), acceptDialogMap);
 				}
 			}
 		}
+	}
+	
+	private void loadNpcTagInfo(String npcTagsJsonFileName) {
+		JsonReader jsonReader;
+		try {
+			jsonReader = Json.createReader(new FileReader(npcTagsJsonFileName));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		JsonObject object = jsonReader.readObject();
+		Set<String> tagSet = object.keySet();
+		JsonArray preMods;
+		JsonArray postMods;
+		JsonArray locs;
+		JsonArray requestDialogs;
+		JsonArray acceptDialogs;
+		JsonObject tag;
+		for (String tagName : tagSet) {
+			tags.add(tagName);
+			tag = object.getJsonObject(tagName);
+			preMods = tag.getJsonArray("pre-modifiers");
+			postMods = tag.getJsonArray("post-modifiers");
+			locs = tag.getJsonArray("locations");
+			requestDialogs = tag.getJsonArray("request-dialogs");
+			acceptDialogs = tag.getJsonArray("accept-dialogs");
+			if (preMods != null) {
+				for (JsonValue preModVal : preMods) {
+					String preMod = ((JsonString)preModVal).getString();
+					addToHashmapList(tagName, preMod, preModsTagMap);
+				}
+			}
+			if (postMods != null) {
+				for (JsonValue postModVal : postMods) {
+					String postMod = ((JsonString)postModVal).getString();
+					addToHashmapList(tagName, postMod, postModsTagMap);
+				}
+			}
+			if (locs != null) {
+				for (JsonValue locVal : locs) {
+					String loc = ((JsonString)locVal).getString();
+					addToHashmapList(tagName, loc, locsTagMap);
+				}
+			}
+			if (requestDialogs != null) {
+				for (JsonValue requestDialogVal : requestDialogs) {
+					String requestDialog = ((JsonString)requestDialogVal).getString();
+					addToHashmapList(tagName, requestDialog, requestDialogTagMap);
+				}
+			}
+			if (acceptDialogs != null) {
+				for (JsonValue acceptDialogVal : acceptDialogs) {
+					String acceptDialog = ((JsonString)acceptDialogVal).getString();
+					addToHashmapList(tagName, acceptDialog, acceptDialogTagMap);
+				}
+			}
+		}
+	}
+	
+	private void addToHashmapList(String key, String element, HashMap<String, ArrayList<String>> map) {
+		if (element == null)
+			return;
+		ArrayList<String> list = map.get(key);
+		if (list == null) {
+			list = new ArrayList<>();
+			map.put(key, list);
+		}
+		list.add(element);
+	}
+	
+	private void addToHashmapList(String key, ArrayList<String> appendList, HashMap<String, ArrayList<String>> map) {
+		if (appendList == null || appendList.size() == 0)
+			return;
+		ArrayList<String> list = map.get(key);
+		if (list == null) {
+			list = new ArrayList<>();
+			map.put(key, list);
+		}
+		list.addAll(appendList);
 	}
 	
 	public NPC getNpc (String npcName) {

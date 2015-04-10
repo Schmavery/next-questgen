@@ -1,0 +1,53 @@
+{
+	"townsfolk": {
+		"pre-modifiers": [
+			"friendly",
+			"snappy",
+			"rugged",
+			""
+		],
+		"post-modifiers": [
+			"staring blankly at you",
+			"writting on a piece of paper",
+			""
+		],
+		"locations": [
+			"lazing around",
+			"lying wounded on the floor",
+			""
+		],
+		"request-dialogs": [
+			"Please bring me a [give], I need it for my sick mother.",
+			"Maybe I could help you if you can find me a [give]."
+		],
+		"accept-dialogs": [
+			"Awesome! What a great [give], here take my [take]."
+		]
+	},
+	"monster": {
+		"pre-modifiers": [
+			"snappy",
+			"roaring",
+			"scary",
+			"toothy",
+			"giant"
+		],
+		"post-modifiers": [
+			"asleep",
+			"charging you",
+			"licking its lips ominously"
+		],
+		"locations": [
+			"ready to pounce",
+			"under a tree",
+			""
+		],
+		"request-dialogs": [
+			"The monster attacks you, you barely escape with your life. You sense it has a [give] vulnerability.",
+			"You sense it has a [give] vulnerability."
+		],
+		"accept-dialogs": [
+			"The monster recoils in fear when it realizes you've got a [give]. You attack it, and see it disintegrate into acid."
+		]
+	}
+}
