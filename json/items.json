@@ -12,7 +12,8 @@
 		"locations": [
 			"on a shelf",
 			"waddling around"
-		]
+		],
+		"tags":["thing"]
 	},
 	"giraffe": {
 		"pre-modifiers": [
@@ -27,6 +28,7 @@
 		"locations": [
 			"on stilts"
 		]
+
 	},
 	"eggs": {
 		"pre-modifiers": [
@@ -88,7 +90,8 @@
 		"pre-modifiers": [
 			"glittering",
 			"pure"
-		]
+		],
+		"tags":["liquid"]
 	},
 	"sword": {
 		"pre-modifiers": [

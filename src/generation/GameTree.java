@@ -1,10 +1,5 @@
 package generation;
 
-import com.sun.corba.se.impl.orbutil.graph.Node;
-
-import entities.Item;
-
-// leaves are items that exist in the world, 
 public class GameTree {
 	
 	private TradeNode root;
@@ -13,12 +8,9 @@ public class GameTree {
 	private final int MAX_TRY_COUNT = 100;
 	private TradeGenerator generator;
 	
-//	public static void main(String[] args) {
-//		GameTree gt = new GameTree();	
-//	}
-	
+
 	public GameTree() {
-		generator = new TradeGenerator("./json/npcrules.json", "./json/items.json", "./json/npcs.json");
+		generator = new TradeGenerator("./json/npcrules.json", "./json/items.json", "./json/npcs.json", "./json/itemTags.json");
 		if (!generateTree())
 			throw new RuntimeException("FAILED TO GENERATE A VALID TREE: TIMEOUT");
 		TradeNode n = root;

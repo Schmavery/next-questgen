@@ -1,0 +1,40 @@
+{
+	"thing": {
+		"pre-modifiers": [
+			"amazing",
+			"shiny",
+			"tiny",
+			"weird",
+			"twisted",
+			"eerie",
+			"strange"
+		],
+		"post-modifiers": [
+			"of doom",
+			""
+		],
+		"locations": [
+			"on a shelf",
+			"in the dust",
+			"under a table",
+			"in the middle of the room"
+		]
+	},
+	"liquid": {
+		"pre-modifiers": [
+			"goopy",
+			"clear",
+			"bubbling"
+		],
+		"post-modifiers": [
+			"reflecting your face",
+			""
+		],
+		"locations": [
+			"in a cup",
+			"in a jar",
+			"in a bathtub",
+			"in a vial"
+		]
+	}
+}
