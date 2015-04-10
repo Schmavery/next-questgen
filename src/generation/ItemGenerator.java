@@ -17,13 +17,19 @@ import javax.json.JsonValue;
 import entities.Item;
 
 public class ItemGenerator {
-	// Flyweight
+	// This is a fancy flyweight
 	private HashMap<String, Item> items = new HashMap<>();
 
 	private ArrayList<String> nouns = new ArrayList<>();
 	private HashMap<String, ArrayList<String>> preModsMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> postModsMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> locsMap = new HashMap<>();
+	
+	private ArrayList<String> tags = new ArrayList<>();
+	private HashMap<String, ArrayList<String>> preModsTagMap = new HashMap<>();
+	private HashMap<String, ArrayList<String>> postModsTagMap = new HashMap<>();
+	private HashMap<String, ArrayList<String>> locsTagMap = new HashMap<>();
+
 	private Random random;
 	public ItemGenerator(String itemsJsonFileName, String itemTagsJsonFileName) {
 		random = new Random();
@@ -50,55 +56,37 @@ public class ItemGenerator {
 			postMods = itemRules.getJsonArray("post-modifiers");
 			locs = itemRules.getJsonArray("locations");
 			itemTags = itemRules.getJsonArray("tags");
-			if (itemTags != null) {
-				for (JsonValue tagVal : itemTags) {
-					String tag = ((JsonString)tagVal).getString();
-					// TODO: add this tag's preMods, postMods, locs
-				}
-			}
 			if (preMods != null) {
 				for (JsonValue preModVal : preMods) {
 					String preMod = ((JsonString)preModVal).getString();
-					ArrayList<String> list = preModsMap.get(noun);
-					if (list == null) {
-						list = new ArrayList<>();
-						preModsMap.put(noun, list);
-					}
-					list.add(preMod);
+					addToHashmapList(noun, preMod, preModsMap);
 				}
 			}
 			if (postMods != null) {
 				for (JsonValue postModVal : postMods) {
 					String postMod = ((JsonString)postModVal).getString();
-					ArrayList<String> list = postModsMap.get(noun);
-					if (list == null) {
-						list = new ArrayList<>();
-						postModsMap.put(noun, list);
-					}
-					list.add(postMod);
+					addToHashmapList(noun, postMod, postModsMap);
 				}
 			}
 			if (locs != null) {
 				for (JsonValue locVal : locs) {
 					String loc = ((JsonString)locVal).getString();
-					ArrayList<String> list = locsMap.get(noun);
-					if (list == null) {
-						list = new ArrayList<>();
-						locsMap.put(noun, list);
-					}
-					list.add(loc);
+					addToHashmapList(noun, loc, locsMap);
+				}
+			}
+			if (itemTags != null) {
+				for (JsonValue tagVal : itemTags) {
+					String tag = ((JsonString)tagVal).getString();
+					addToHashmapList(noun, preModsTagMap.get(tag), preModsMap);
+					addToHashmapList(noun, postModsTagMap.get(tag), postModsMap);
+					addToHashmapList(noun, locsTagMap.get(tag), locsMap);
 				}
 			}
 		}
 		
 	}
 	
-	
-	private ArrayList<String> tags = new ArrayList<>();
-	private HashMap<String, ArrayList<String>> preModsTagMap = new HashMap<>();
-	private HashMap<String, ArrayList<String>> postModsTagMap = new HashMap<>();
-	private HashMap<String, ArrayList<String>> locsTagMap = new HashMap<>();
-	
+		
 	private void loadItemTagInfo(String itemTagsJsonFileName) {
 		JsonReader jsonReader;
 		try {
@@ -123,47 +111,46 @@ public class ItemGenerator {
 			if (preMods != null) {
 				for (JsonValue preModVal : preMods) {
 					String preMod = ((JsonString)preModVal).getString();
-					ArrayList<String> list = preModsTagMap.get(tagName);
-					if (list == null) {
-						list = new ArrayList<>();
-						preModsMap.put(tagName, list);
-					}
-					list.add(preMod);
+					addToHashmapList(tagName, preMod, preModsTagMap);
 				}
 			}
 			if (postMods != null) {
 				for (JsonValue postModVal : postMods) {
 					String postMod = ((JsonString)postModVal).getString();
-					ArrayList<String> list = postModsTagMap.get(tagName);
-					if (list == null) {
-						list = new ArrayList<>();
-						postModsMap.put(tagName, list);
-					}
-					list.add(postMod);
+					addToHashmapList(tagName, postMod, postModsTagMap);
 				}
 			}
 			if (locs != null) {
 				for (JsonValue locVal : locs) {
 					String loc = ((JsonString)locVal).getString();
-					ArrayList<String> list = locsTagMap.get(tagName);
-					if (list == null) {
-						list = new ArrayList<>();
-						locsMap.put(tagName, list);
-					}
-					list.add(loc);
+					addToHashmapList(tagName, loc, locsTagMap);
 				}
 			}
 		}
 	}
 	
 	private void addToHashmapList(String key, String element, HashMap<String, ArrayList<String>> map) {
+		if (element == null)
+			return;
 		ArrayList<String> list = map.get(key);
 		if (list == null) {
 			list = new ArrayList<>();
-			locsMap.put(key, list);
+			map.put(key, list);
 		}
 		list.add(element);
 	}
+	
+	private void addToHashmapList(String key, ArrayList<String> appendList, HashMap<String, ArrayList<String>> map) {
+		if (appendList == null || appendList.size() == 0)
+			return;
+		ArrayList<String> list = map.get(key);
+		if (list == null) {
+			list = new ArrayList<>();
+			map.put(key, list);
+		}
+		list.addAll(appendList);
+	}
+
 
 	
 	public Item getItem(String itemNoun) {
