@@ -7,8 +7,8 @@ public class NPC extends Entity {
 	public NPC(String identifier, String name, String description, String requestDialog, String acceptDialog) {
 		super(identifier, name, description);
 		setEntityType(EntityType.NPC);
-		this.requestDialog = requestDialog;
 		this.acceptDialog = acceptDialog;
+		this.requestDialog = requestDialog;
 	}
 	
 	public void setTradeRule(TradeNode node) {
@@ -16,7 +16,14 @@ public class NPC extends Entity {
 		reward = node.give;
 		// TODO: Fix a/an by looking at whether next word starts with vowel or consonant.
 		//		 replace markers in dialog with item names.
+		// https://github.com/rigoneri/indefinite-article.js/blob/master/indefinite-article.js
 		tradeCompleted = false;
+		requestDialog = requestDialog
+				.replaceAll("\\[give\\]", requires == null ? "" : requires.getName())
+				.replaceAll("\\[take\\]", reward == null ? "" : reward.getName());
+		acceptDialog = acceptDialog
+				.replaceAll("\\[give\\]", requires == null ? "" : requires.getName())
+				.replaceAll("\\[take\\]", reward == null ? "" : reward.getName());
 		if (reward == null)
 			reward = new Item("victory", "Congratulations, you have won the game!", "Congratulations, you have won the game!");
 	}
@@ -25,15 +32,20 @@ public class NPC extends Entity {
 	boolean tradeCompleted = false;
 	Item requires, reward;
 	
-	// I'm wondering if we should have a "Trade" object encapsulating whether the trade was successful,
-	// the item you get in return and what the NPC says.
-	// Then again, check what I did in GameEngine (the 'trade' case).  Maybe that's enough
 	public boolean tradeCompleted() {
 		return tradeCompleted;
 	}
 	
 	public Item getRequiredItem() {
 		return requires;
+	}
+	
+	public String talk(){
+		if (tradeCompleted){
+			return acceptDialog;
+		} else {
+			return requestDialog;
+		}
 	}
 	
 	public Item trade(Item i){

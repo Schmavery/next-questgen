@@ -1,7 +1,7 @@
 package entities;
 
 public abstract class Entity implements Visible{
-	public static enum EntityType {ITEM, NPC};
+	public static enum EntityType {ITEM, NPC, ANY};
 	private EntityType type;
 	private String identifier, name, description;
 	
