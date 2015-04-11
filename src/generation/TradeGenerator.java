@@ -69,7 +69,8 @@ public class TradeGenerator {
 					list = new ArrayList<>();
 					npcRewards.put(item, list);
 				}
-				list.add(npc);
+				if (!list.contains(npc))
+					list.add(npc);
 			}
 			for (JsonValue takes : takesArray) {
 				String itemNoun = ((JsonString) takes).getString();
@@ -79,7 +80,8 @@ public class TradeGenerator {
 					list = new ArrayList<>();
 					npcTakes.put(npc, list);
 				}
-				list.add(item);
+				if (!list.contains(item))
+					list.add(item);
 			}
 			
 			List<String> npcTags = npcGenerator.getTags(npcName);
@@ -93,7 +95,8 @@ public class TradeGenerator {
 								list = new ArrayList<>();
 								npcRewards.put(item, list);
 							}
-							list.add(npc);
+							if (!list.contains(npc))
+								list.add(npc);
 						}
 					}
 					
@@ -105,7 +108,8 @@ public class TradeGenerator {
 								list = new ArrayList<>();
 								npcTakes.put(npc, list);
 							}
-							list.add(item);				
+							if (!list.contains(item))
+								list.add(item);				
 						}
 					}
 				}
@@ -142,7 +146,8 @@ public class TradeGenerator {
 						list = new ArrayList<>();
 						tagTakes.put(tagName, list);
 					}
-					list.add(item);
+					if (!list.contains(item))
+						list.add(item);
 				}
 			}
 			if (rewardsArray != null) {
@@ -154,8 +159,9 @@ public class TradeGenerator {
 						list = new ArrayList<>();
 						tagRewards.put(tagName, list);
 					}
-					list.add(item);
-
+					if (!list.contains(item)) {
+						list.add(item);
+					}
 				}
 			}
 		}
@@ -170,6 +176,7 @@ public class TradeGenerator {
 	
 	// ParentTradeNode is the trade which we will perform after the one being generated.
 	public TradeNode generateTradeNode (TradeNode parentTradeNode) {
+		System.out.println("here");
 		// item that our new trade must give
 		Item giveItem = parentTradeNode.receive;
 		Set<NPC> usedNpcs = new HashSet<>();
@@ -180,17 +187,27 @@ public class TradeGenerator {
 			usedItems.add(node.give);
 			node = node.parentNode;
 		}
-		ArrayList<NPC> npcCandidates = npcRewards.get(giveItem);
+		ArrayList<NPC> npcCandidatesRaw = npcRewards.get(giveItem);
+		ArrayList<NPC> npcCandidates = (ArrayList<NPC>) ((npcCandidatesRaw == null) ? null : npcCandidatesRaw.clone());
 		if (usedNpcs != null && npcCandidates != null) {
-			npcCandidates = (ArrayList<NPC>) npcCandidates.clone();
 			for (NPC npc : usedNpcs) {
-				if (npcCandidates.contains(npc))
+				if (npcCandidates.contains(npc)) {
+					System.out.print("current candidatesList: ");
+					for (NPC el : npcCandidates) {
+						System.out.print(el.getIdentifier() + ", ");
+					}
+					System.out.println("\n"+npc.getIdentifier() + " removed from candidates");
 					npcCandidates.remove(npc);
+				}
 			}
+		}
+		for (NPC npc : npcCandidates) {
+			System.out.println("candidates: " + npc.getIdentifier());
 		}
 		
 		NPC npc = getRandomNPC(npcCandidates);
 		if (npc == null) return null;
+		System.out.println("picking: " + npc.getIdentifier());
 		
 		ArrayList<Item> receiveItemCandidates = npcTakes.get(npc);
 		if (usedItems != null && receiveItemCandidates != null) {

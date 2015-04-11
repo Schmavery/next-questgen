@@ -67,4 +67,5 @@ public class NPC extends Entity {
 		} else
 			return null;
 	}
+	
 }
