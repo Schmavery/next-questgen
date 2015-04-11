@@ -26,6 +26,19 @@
 		"finished-dialogs":[
 			"Thanks again for the [give]!",
 			"That [give] you got me wasn't as good as I'd hoped..."
+		],
+		"names":[
+			"shopkeeper",
+			"baker",
+			"loiterer",
+			"old man"
+		],
+		"gives":[
+			"thing",
+			"liquid"
+		],
+		"takes":[
+			"thing"
 		]
 	},
 	"monster": {
@@ -55,6 +68,19 @@
 		],
 		"finished-dialogs":[
 			"The beast lies dead."
+		],
+		"names":[
+			"dragon",
+			"worm",
+			"troll",
+			"sorcerer"
+		],
+		"gives":[
+			"thing"
+		],
+		"takes": [
+			"liquid",
+			"thing"
 		]
 
 	}

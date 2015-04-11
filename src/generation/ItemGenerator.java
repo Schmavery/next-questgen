@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -14,76 +15,29 @@ import javax.json.JsonReader;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
+import java.util.Map.Entry;
+
 import entities.Item;
 
 public class ItemGenerator {
 	// This is a fancy flyweight
 	private HashMap<String, Item> items = new HashMap<>();
 
-	private ArrayList<String> nouns = new ArrayList<>();
-	private HashMap<String, ArrayList<String>> preModsMap = new HashMap<>();
-	private HashMap<String, ArrayList<String>> postModsMap = new HashMap<>();
-	private HashMap<String, ArrayList<String>> locsMap = new HashMap<>();
+//	private ArrayList<String> nouns = new ArrayList<>();
+//	private HashMap<String, ArrayList<String>> preModsMap = new HashMap<>();
+//	private HashMap<String, ArrayList<String>> postModsMap = new HashMap<>();
+//	private HashMap<String, ArrayList<String>> locsMap = new HashMap<>();
 	
 	private ArrayList<String> tags = new ArrayList<>();
 	private HashMap<String, ArrayList<String>> preModsTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> postModsTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> locsTagMap = new HashMap<>();
+	private HashMap<String, ArrayList<String>> nounsTagMap = new HashMap<>();
 
 	private Random random;
 	public ItemGenerator(String itemsJsonFileName, String itemTagsJsonFileName) {
 		random = new Random();
 		loadItemTagInfo(itemTagsJsonFileName);
-		JsonReader jsonReader;
-		try {
-			jsonReader = Json.createReader(new FileReader(itemsJsonFileName));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		}
-		
-		JsonObject object = jsonReader.readObject();
-		Set<String> nounSet = object.keySet();
-		JsonArray preMods;
-		JsonArray postMods;
-		JsonArray locs;
-		JsonArray itemTags;
-		JsonObject itemRules;
-		for (String noun : nounSet) {
-			nouns.add(noun);
-			itemRules = object.getJsonObject(noun);
-			preMods = itemRules.getJsonArray("pre-modifiers");
-			postMods = itemRules.getJsonArray("post-modifiers");
-			locs = itemRules.getJsonArray("locations");
-			itemTags = itemRules.getJsonArray("tags");
-			if (preMods != null) {
-				for (JsonValue preModVal : preMods) {
-					String preMod = ((JsonString)preModVal).getString();
-					addToHashmapList(noun, preMod, preModsMap);
-				}
-			}
-			if (postMods != null) {
-				for (JsonValue postModVal : postMods) {
-					String postMod = ((JsonString)postModVal).getString();
-					addToHashmapList(noun, postMod, postModsMap);
-				}
-			}
-			if (locs != null) {
-				for (JsonValue locVal : locs) {
-					String loc = ((JsonString)locVal).getString();
-					addToHashmapList(noun, loc, locsMap);
-				}
-			}
-			if (itemTags != null) {
-				for (JsonValue tagVal : itemTags) {
-					String tag = ((JsonString)tagVal).getString();
-					addToHashmapList(noun, preModsTagMap.get(tag), preModsMap);
-					addToHashmapList(noun, postModsTagMap.get(tag), postModsMap);
-					addToHashmapList(noun, locsTagMap.get(tag), locsMap);
-				}
-			}
-		}
-		
 	}
 	
 		
@@ -101,6 +55,7 @@ public class ItemGenerator {
 		JsonArray preMods;
 		JsonArray postMods;
 		JsonArray locs;
+		JsonArray nouns;
 		JsonObject tag;
 		for (String tagName : tagSet) {
 			tags.add(tagName);
@@ -108,6 +63,7 @@ public class ItemGenerator {
 			preMods = tag.getJsonArray("pre-modifiers");
 			postMods = tag.getJsonArray("post-modifiers");
 			locs = tag.getJsonArray("locations");
+			nouns = tag.getJsonArray("nouns");
 			if (preMods != null) {
 				for (JsonValue preModVal : preMods) {
 					String preMod = ((JsonString)preModVal).getString();
@@ -126,6 +82,12 @@ public class ItemGenerator {
 					addToHashmapList(tagName, loc, locsTagMap);
 				}
 			}
+			if (nouns != null) {
+				for (JsonValue nounVal : nouns) {
+					String noun = ((JsonString)nounVal).getString();
+					addToHashmapList(noun, tagName, nounsTagMap);
+				}
+			}
 		}
 	}
 	
@@ -140,17 +102,26 @@ public class ItemGenerator {
 		list.add(element);
 	}
 	
-	private void addToHashmapList(String key, ArrayList<String> appendList, HashMap<String, ArrayList<String>> map) {
-		if (appendList == null || appendList.size() == 0)
-			return;
-		ArrayList<String> list = map.get(key);
-		if (list == null) {
-			list = new ArrayList<>();
-			map.put(key, list);
-		}
-		list.addAll(appendList);
-	}
+//	private void addToHashmapList(String key, ArrayList<String> appendList, HashMap<String, ArrayList<String>> map) {
+//		if (appendList == null || appendList.size() == 0)
+//			return;
+//		ArrayList<String> list = map.get(key);
+//		if (list == null) {
+//			list = new ArrayList<>();
+//			map.put(key, list);
+//		}
+//		list.addAll(appendList);
+//	}
 
+	public List<Item> getItemsWithTag(String tag) {
+		List<Item> items = new ArrayList<Item>();
+		for (Entry<String, ArrayList<String>> entry : nounsTagMap.entrySet()) {
+			if (entry.getValue().contains(tag)){
+				items.add(getItem(entry.getKey()));
+			}
+		}
+		return items;
+	}
 
 	public Item getItem(String itemNoun) {
 		Item item = items.get(itemNoun);
@@ -160,14 +131,30 @@ public class ItemGenerator {
 		}
 		return item;
 	}
-
 	
 	private Item generateItem(String noun) {
-		String preString = getRandom(preModsMap.get(noun)) + " ";
+		List<String> tagsList = nounsTagMap.get(noun);
+		if (tagsList == null) return null;
+		ArrayList<String> preModsMap = new ArrayList<>();
+		ArrayList<String> postModsMap = new ArrayList<>();
+		ArrayList<String> locsMap = new ArrayList<>();
+		for (String tag : tagsList) {
+			List<String> preMods = preModsTagMap.get(tag);
+			List<String> postMods = postModsTagMap.get(tag);
+			List<String> locs = locsTagMap.get(tag);
+			if (preMods != null)
+				preModsMap.addAll(preMods);
+			if (postMods != null)
+				postModsMap.addAll(postMods);
+			if (locs != null)
+				locsMap.addAll(locs);
+		}
+		
+		String preString = getRandom(preModsMap) + " ";
 		if (preString.length() <= 1) preString = "";
-		String postString = " " + getRandom(postModsMap.get(noun));
+		String postString = " " + getRandom(postModsMap);
 		if (postString.length() <= 1) postString = "";
-		String locString = " " + getRandom(locsMap.get(noun));
+		String locString = " " + getRandom(locsMap);
 		if (locString.length() <= 1) locString = "";
 		String name = preString+noun+postString;
 		return new Item(noun, name, "You see a "+name+locString);

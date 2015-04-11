@@ -29,8 +29,13 @@ public class TradeGenerator {
 	private NpcGenerator npcGenerator;
 	
 	
+//	private HashMap<String, ArrayList<Item>> npcTakes = new HashMap<>();
+//	private HashMap<Item, ArrayList<String>> npcRewards = new HashMap<>();
+	
 	private HashMap<NPC, ArrayList<Item>> npcTakes = new HashMap<>();
 	private HashMap<Item, ArrayList<NPC>> npcRewards = new HashMap<>();
+//	npcTagTakesTag
+//	npcTagRewardsTag
 	
 	
 	private HashMap<String, ArrayList<Item>> tagTakes = new HashMap<>();
@@ -41,131 +46,131 @@ public class TradeGenerator {
 	public TradeGenerator () {
 		itemGenerator = new ItemGenerator(itemRulesFileName, itemTagsJsonFileName);
 		npcGenerator = new NpcGenerator(npcRulesFileName, npcTagsJsonFileName);
-		JsonReader jsonReader;
-		try {
-			jsonReader = Json.createReader(new FileReader(tradeRulesFileName));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		}
-		loadTagRulesInfo();
-		
-		
-		JsonObject object = jsonReader.readObject();
-		Set<String> npcNameSet = object.keySet();
-		JsonObject rules;
-		JsonArray givesArray;
-		JsonArray takesArray;
-		for (String npcName : npcNameSet) {
-			rules = object.getJsonObject(npcName);
-			givesArray = rules.getJsonArray("gives");
-			takesArray = rules.getJsonArray("takes");
-			NPC npc = npcGenerator.getNpc(npcName);
-			for (JsonValue gives : givesArray) {
-				String itemNoun = ((JsonString) gives).getString();
-				Item item = itemGenerator.getItem(itemNoun);
-				ArrayList<NPC> list = npcRewards.get(item);
-				if (list == null) {
-					list = new ArrayList<>();
-					npcRewards.put(item, list);
-				}
-				if (!list.contains(npc))
-					list.add(npc);
-			}
-			for (JsonValue takes : takesArray) {
-				String itemNoun = ((JsonString) takes).getString();
-				Item item = itemGenerator.getItem(itemNoun);
-				ArrayList<Item> list = npcTakes.get(npc);
-				if (list == null) {
-					list = new ArrayList<>();
-					npcTakes.put(npc, list);
-				}
-				if (!list.contains(item))
-					list.add(item);
-			}
-			
-			List<String> npcTags = npcGenerator.getTags(npcName);
-			if (npcTags != null) {
-				for (String tag : npcTags) {
-					List<Item> rewardsList = tagRewards.get(tag);
-					if (rewardsList != null) {
-						for (Item item : rewardsList) {
-							ArrayList<NPC> list = npcRewards.get(item);
-							if (list == null) {
-								list = new ArrayList<>();
-								npcRewards.put(item, list);
-							}
-							if (!list.contains(npc))
-								list.add(npc);
-						}
-					}
-					
-					List<Item> takesList = tagTakes.get(tag);
-					if (takesList != null) {
-						for (Item item : takesList) {
-							ArrayList<Item> list = npcTakes.get(npc);
-							if (list == null) {
-								list = new ArrayList<>();
-								npcTakes.put(npc, list);
-							}
-							if (!list.contains(item))
-								list.add(item);				
-						}
-					}
-				}
-			}
-		}
+//		JsonReader jsonReader;
+//		try {
+//			jsonReader = Json.createReader(new FileReader(tradeRulesFileName));
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//			return;
+//		}
+//		loadTagRulesInfo();
+//		
+//		
+//		JsonObject object = jsonReader.readObject();
+//		Set<String> npcNameSet = object.keySet();
+//		JsonObject rules;
+//		JsonArray givesArray;
+//		JsonArray takesArray;
+//		for (String npcName : npcNameSet) {
+//			rules = object.getJsonObject(npcName);
+//			givesArray = rules.getJsonArray("gives");
+//			takesArray = rules.getJsonArray("takes");
+//			NPC npc = npcGenerator.getNpc(npcName);
+//			for (JsonValue gives : givesArray) {
+//				String itemNoun = ((JsonString) gives).getString();
+//				Item item = itemGenerator.getItem(itemNoun);
+//				ArrayList<String> npcList = npcRewards.get(item);
+//				if (npcList == null) {
+//					npcList = new ArrayList<>();
+//					npcRewards.put(item, npcList);
+//				}
+//				if (!npcList.contains(npc))
+//					npcList.add(npc.);
+//			}
+//			for (JsonValue takes : takesArray) {
+//				String itemNoun = ((JsonString) takes).getString();
+//				Item item = itemGenerator.getItem(itemNoun);
+//				ArrayList<Item> list = npcTakes.get(npc);
+//				if (list == null) {
+//					list = new ArrayList<>();
+//					npcTakes.put(npc, list);
+//				}
+//				if (!list.contains(item))
+//					list.add(item);
+//			}
+//			
+//			List<String> npcTags = npcGenerator.getTags(npcName);
+//			if (npcTags != null) {
+//				for (String tag : npcTags) {
+//					List<Item> rewardsList = tagRewards.get(tag);
+//					if (rewardsList != null) {
+//						for (Item item : rewardsList) {
+//							ArrayList<NPC> list = npcRewards.get(item);
+//							if (list == null) {
+//								list = new ArrayList<>();
+//								npcRewards.put(item, list);
+//							}
+//							if (!list.contains(npc))
+//								list.add(npc);
+//						}
+//					}
+//					
+//					List<Item> takesList = tagTakes.get(tag);
+//					if (takesList != null) {
+//						for (Item item : takesList) {
+//							ArrayList<Item> list = npcTakes.get(npc);
+//							if (list == null) {
+//								list = new ArrayList<>();
+//								npcTakes.put(npc, list);
+//							}
+//							if (!list.contains(item))
+//								list.add(item);				
+//						}
+//					}
+//				}
+//			}
+//		}
 	}
 	
-	private void loadTagRulesInfo() {
-		JsonReader jsonReader;
-		try {
-			jsonReader = Json.createReader(new FileReader(npcRulesTagsFileName));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		}
-		
-		JsonObject object = jsonReader.readObject();
-		Set<String> tagSet = object.keySet();
-		JsonArray requiresArray;
-		JsonArray rewardsArray;
-		JsonObject tag;
-		for (String tagName : tagSet) {
-//			tags.add(tagName);
-			tag = object.getJsonObject(tagName);
-			requiresArray = tag.getJsonArray("gives");
-			rewardsArray = tag.getJsonArray("takes");
-			
-			if (requiresArray != null) {
-				for (JsonValue reqVal : requiresArray) {
-					String itemNoun = ((JsonString)reqVal).getString();					
-					Item item = itemGenerator.getItem(itemNoun);
-					ArrayList<Item> list = tagTakes.get(tagName);
-					if (list == null) {
-						list = new ArrayList<>();
-						tagTakes.put(tagName, list);
-					}
-					if (!list.contains(item))
-						list.add(item);
-				}
-			}
-			if (rewardsArray != null) {
-				for (JsonValue rewardVal : rewardsArray) {
-					String itemNoun = ((JsonString)rewardVal).getString();							
-					Item item = itemGenerator.getItem(itemNoun);
-					ArrayList<Item> list = tagRewards.get(tagName);
-					if (list == null) {
-						list = new ArrayList<>();
-						tagRewards.put(tagName, list);
-					}
-					if (!list.contains(item)) {
-						list.add(item);
-					}
-				}
-			}
-		}
-	}
+//	private void loadTagRulesInfo() {
+//		JsonReader jsonReader;
+//		try {
+//			jsonReader = Json.createReader(new FileReader(npcRulesTagsFileName));
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//			return;
+//		}
+//		
+//		JsonObject object = jsonReader.readObject();
+//		Set<String> tagSet = object.keySet();
+//		JsonArray requiresArray;
+//		JsonArray rewardsArray;
+//		JsonObject tag;
+//		for (String tagName : tagSet) {
+////			tags.add(tagName);
+//			tag = object.getJsonObject(tagName);
+//			requiresArray = tag.getJsonArray("gives");
+//			rewardsArray = tag.getJsonArray("takes");
+//			
+//			if (requiresArray != null) {
+//				for (JsonValue reqVal : requiresArray) {
+//					String itemNoun = ((JsonString)reqVal).getString();					
+//					Item item = itemGenerator.getItem(itemNoun);
+//					ArrayList<Item> list = tagTakes.get(tagName);
+//					if (list == null) {
+//						list = new ArrayList<>();
+//						tagTakes.put(tagName, list);
+//					}
+//					if (!list.contains(item))
+//						list.add(item);
+//				}
+//			}
+//			if (rewardsArray != null) {
+//				for (JsonValue rewardVal : rewardsArray) {
+//					String itemNoun = ((JsonString)rewardVal).getString();							
+//					Item item = itemGenerator.getItem(itemNoun);
+//					ArrayList<Item> list = tagRewards.get(tagName);
+//					if (list == null) {
+//						list = new ArrayList<>();
+//						tagRewards.put(tagName, list);
+//					}
+//					if (!list.contains(item)) {
+//						list.add(item);
+//					}
+//				}
+//			}
+//		}
+//	}
 		
 	public TradeNode generateRootTradeNode() {
 		NPC npc = getRandomNPC(new ArrayList<>(npcTakes.keySet()));
@@ -192,26 +197,18 @@ public class TradeGenerator {
 		if (usedNpcs != null && npcCandidates != null) {
 			for (NPC npc : usedNpcs) {
 				if (npcCandidates.contains(npc)) {
-					System.out.print("current candidatesList: ");
-					for (NPC el : npcCandidates) {
-						System.out.print(el.getIdentifier() + ", ");
-					}
-					System.out.println("\n"+npc.getIdentifier() + " removed from candidates");
 					npcCandidates.remove(npc);
 				}
 			}
-		}
-		for (NPC npc : npcCandidates) {
-			System.out.println("candidates: " + npc.getIdentifier());
 		}
 		
 		NPC npc = getRandomNPC(npcCandidates);
 		if (npc == null) return null;
 		System.out.println("picking: " + npc.getIdentifier());
 		
-		ArrayList<Item> receiveItemCandidates = npcTakes.get(npc);
+		ArrayList<Item> receiveItemCandidatesRaw = npcTakes.get(npc);
+		ArrayList<Item> receiveItemCandidates = (ArrayList<Item>) ((receiveItemCandidatesRaw == null) ? null : receiveItemCandidatesRaw.clone());
 		if (usedItems != null && receiveItemCandidates != null) {
-			receiveItemCandidates = (ArrayList<Item>) receiveItemCandidates.clone();
 			for (Item item : usedItems) {
 				if (receiveItemCandidates.contains(item))
 					receiveItemCandidates.remove(item);

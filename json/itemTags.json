@@ -18,6 +18,25 @@
 			"in the dust",
 			"under a table",
 			"in the middle of the room"
+		],
+		"nouns": [
+			"pot",
+			"spatula",
+			"duck",
+			"bread",
+			"money",
+			"giraffe",
+			"eggs",
+			"flour",
+			"bread",
+			"money",
+			"gold piece",
+			"duck",
+			"pot",
+			"eggs",
+			"flour",
+			"bread",
+			"spatula"
 		]
 	},
 	"liquid": {
@@ -35,6 +54,15 @@
 			"in a jar",
 			"in a bathtub",
 			"in a vial"
+		],
+		"nouns": [
+			"gold piece",
+			"sword",
+			"pot",
+			"duck",
+			"giraffe",
+			"bread",
+			"pot"
 		]
 	}
 }

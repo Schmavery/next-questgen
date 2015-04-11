@@ -22,22 +22,29 @@ import entities.NPC;
 public class NpcGenerator {
 	private HashMap<String, NPC> npcs = new HashMap<>();
 
-	private ArrayList<String> npcNames = new ArrayList<>();
-	private HashMap<String, ArrayList<String>> preModsMap = new HashMap<>();
-	private HashMap<String, ArrayList<String>> postModsMap = new HashMap<>();
-	private HashMap<String, ArrayList<String>> locsMap = new HashMap<>();
-	private HashMap<String, ArrayList<String>> requestDialogMap = new HashMap<>();
-	private HashMap<String, ArrayList<String>> acceptDialogMap = new HashMap<>();
-	private HashMap<String, ArrayList<String>> finishedDialogMap = new HashMap<>();
+//	private ArrayList<String> npcNames = new ArrayList<>();
+//	private HashMap<String, ArrayList<String>> preModsMap = new HashMap<>();
+//	private HashMap<String, ArrayList<String>> postModsMap = new HashMap<>();
+//	private HashMap<String, ArrayList<String>> locsMap = new HashMap<>();
+//	private HashMap<String, ArrayList<String>> requestDialogMap = new HashMap<>();
+//	private HashMap<String, ArrayList<String>> acceptDialogMap = new HashMap<>();
+//	private HashMap<String, ArrayList<String>> finishedDialogMap = new HashMap<>();
 	
-	private HashMap<String, ArrayList<String>> tags = new HashMap<>(); // maps from npcNames to tags
+//	private HashMap<String, ArrayList<String>> tags = new HashMap<>(); // maps from npcNames to tags
 	private HashMap<String, ArrayList<String>> preModsTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> postModsTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> locsTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> requestDialogTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> acceptDialogTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> finishedDialogTagMap = new HashMap<>();
+	private HashMap<String, ArrayList<String>> nameTagMap = new HashMap<>();
+
 	
+//	private HashMap<NPC, ArrayList<Item>> npcTakes = new HashMap<>();
+//	private HashMap<Item, ArrayList<NPC>> npcRewards = new HashMap<>();
+
+	private HashMap<String, ArrayList<String>> npcTakesTag = new HashMap<>();
+	private HashMap<String, ArrayList<String>> npcRewardsTag = new HashMap<>();
 
 
 	private Random random;
@@ -45,83 +52,83 @@ public class NpcGenerator {
 	public NpcGenerator (String npcRulesFileName, String npcTagsJsonFileName) {
 		random = new Random();
 		loadNpcTagInfo(npcTagsJsonFileName);
-		JsonReader jsonReader;
-		try {
-			jsonReader = Json.createReader(new FileReader(npcRulesFileName));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		}
-		
-		JsonObject object = jsonReader.readObject();
-		Set<String> nameSet = object.keySet();
-		JsonArray preMods;
-		JsonArray postMods;
-		JsonArray locs;
-		JsonArray requestDialogs;
-		JsonArray acceptDialogs;
-		JsonArray finishedDialogs;
-		JsonArray npcTags;
-		JsonObject npcRules;
-		for (String name : nameSet) {
-			npcNames.add(name);
-			npcRules = object.getJsonObject(name);
-			preMods = npcRules.getJsonArray("pre-modifiers");
-			postMods = npcRules.getJsonArray("post-modifiers");
-			locs = npcRules.getJsonArray("locations");
-			requestDialogs = npcRules.getJsonArray("request-dialogs");
-			acceptDialogs = npcRules.getJsonArray("accept-dialogs");
-			finishedDialogs = npcRules.getJsonArray("finished-dialogs");
-			npcTags = npcRules.getJsonArray("tags");
-			if (preMods != null) {
-				for (JsonValue preModVal : preMods) {
-					String preMod = ((JsonString)preModVal).getString();
-					addToHashmapList(name, preMod, preModsMap);
-				}
-			}
-			if (postMods != null) {
-				for (JsonValue postModVal : postMods) {
-					String postMod = ((JsonString)postModVal).getString();
-					addToHashmapList(name, postMod, postModsMap);
-				}
-			}
-			if (locs != null) {
-				for (JsonValue locVal : locs) {
-					String loc = ((JsonString)locVal).getString();
-					addToHashmapList(name, loc, locsMap);
-				}
-			}
-			if (requestDialogs != null) {
-				for (JsonValue requestDialogVal : requestDialogs) {
-					String requestDialog = ((JsonString)requestDialogVal).getString();
-					addToHashmapList(name, requestDialog, requestDialogMap);
-				}
-			}
-			if (acceptDialogs != null) {
-				for (JsonValue acceptDialogVal : acceptDialogs) {
-					String acceptDialog = ((JsonString)acceptDialogVal).getString();
-					addToHashmapList(name, acceptDialog, acceptDialogMap);
-				}
-			}
-			if (finishedDialogs != null) {
-				for (JsonValue finishedDialogVal : acceptDialogs) {
-					String finishedDialog = ((JsonString)finishedDialogVal).getString();
-					addToHashmapList(name, finishedDialog, finishedDialogMap);
-				}
-			}
-			if (npcTags != null) {
-				for (JsonValue tagVal : npcTags) {
-					String tag = ((JsonString)tagVal).getString();
-					addToHashmapList(name, tag, tags);
-					addToHashmapList(name, preModsTagMap.get(tag), preModsMap);
-					addToHashmapList(name, postModsTagMap.get(tag), postModsMap);
-					addToHashmapList(name, locsTagMap.get(tag), locsMap);
-					addToHashmapList(name, requestDialogTagMap.get(tag), requestDialogMap);
-					addToHashmapList(name, acceptDialogTagMap.get(tag), acceptDialogMap);
-					addToHashmapList(name, finishedDialogTagMap.get(tag), finishedDialogMap);
-				}
-			}
-		}
+//		JsonReader jsonReader;
+//		try {
+//			jsonReader = Json.createReader(new FileReader(npcRulesFileName));
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//			return;
+//		}
+//		
+//		JsonObject object = jsonReader.readObject();
+//		Set<String> nameSet = object.keySet();
+//		JsonArray preMods;
+//		JsonArray postMods;
+//		JsonArray locs;
+//		JsonArray requestDialogs;
+//		JsonArray acceptDialogs;
+//		JsonArray finishedDialogs;
+//		JsonArray npcTags;
+//		JsonObject npcRules;
+//		for (String name : nameSet) {
+//			npcNames.add(name);
+//			npcRules = object.getJsonObject(name);
+//			preMods = npcRules.getJsonArray("pre-modifiers");
+//			postMods = npcRules.getJsonArray("post-modifiers");
+//			locs = npcRules.getJsonArray("locations");
+//			requestDialogs = npcRules.getJsonArray("request-dialogs");
+//			acceptDialogs = npcRules.getJsonArray("accept-dialogs");
+//			finishedDialogs = npcRules.getJsonArray("finished-dialogs");
+//			npcTags = npcRules.getJsonArray("tags");
+//			if (preMods != null) {
+//				for (JsonValue preModVal : preMods) {
+//					String preMod = ((JsonString)preModVal).getString();
+//					addToHashmapList(name, preMod, preModsMap);
+//				}
+//			}
+//			if (postMods != null) {
+//				for (JsonValue postModVal : postMods) {
+//					String postMod = ((JsonString)postModVal).getString();
+//					addToHashmapList(name, postMod, postModsMap);
+//				}
+//			}
+//			if (locs != null) {
+//				for (JsonValue locVal : locs) {
+//					String loc = ((JsonString)locVal).getString();
+//					addToHashmapList(name, loc, locsMap);
+//				}
+//			}
+//			if (requestDialogs != null) {
+//				for (JsonValue requestDialogVal : requestDialogs) {
+//					String requestDialog = ((JsonString)requestDialogVal).getString();
+//					addToHashmapList(name, requestDialog, requestDialogMap);
+//				}
+//			}
+//			if (acceptDialogs != null) {
+//				for (JsonValue acceptDialogVal : acceptDialogs) {
+//					String acceptDialog = ((JsonString)acceptDialogVal).getString();
+//					addToHashmapList(name, acceptDialog, acceptDialogMap);
+//				}
+//			}
+//			if (finishedDialogs != null) {
+//				for (JsonValue finishedDialogVal : acceptDialogs) {
+//					String finishedDialog = ((JsonString)finishedDialogVal).getString();
+//					addToHashmapList(name, finishedDialog, finishedDialogMap);
+//				}
+//			}
+//			if (npcTags != null) {
+//				for (JsonValue tagVal : npcTags) {
+//					String tag = ((JsonString)tagVal).getString();
+//					addToHashmapList(name, tag, tags);
+//					addToHashmapList(name, preModsTagMap.get(tag), preModsMap);
+//					addToHashmapList(name, postModsTagMap.get(tag), postModsMap);
+//					addToHashmapList(name, locsTagMap.get(tag), locsMap);
+//					addToHashmapList(name, requestDialogTagMap.get(tag), requestDialogMap);
+//					addToHashmapList(name, acceptDialogTagMap.get(tag), acceptDialogMap);
+//					addToHashmapList(name, finishedDialogTagMap.get(tag), finishedDialogMap);
+//				}
+//			}
+//		}
 	}
 	
 	private void loadNpcTagInfo(String npcTagsJsonFileName) {
@@ -141,6 +148,9 @@ public class NpcGenerator {
 		JsonArray requestDialogs;
 		JsonArray acceptDialogs;
 		JsonArray finishedDialogs;
+		JsonArray namesList;
+		JsonArray givesList;
+		JsonArray takesList;
 		JsonObject tag;
 		for (String tagName : tagSet) {
 			tag = object.getJsonObject(tagName);
@@ -150,6 +160,9 @@ public class NpcGenerator {
 			requestDialogs = tag.getJsonArray("request-dialogs");
 			acceptDialogs = tag.getJsonArray("accept-dialogs");
 			finishedDialogs = tag.getJsonArray("finished-dialogs");
+			namesList = tag.getJsonArray("names");
+			givesList = tag.getJsonArray("gives");
+			takesList = tag.getJsonArray("takes");
 			if (preMods != null) {
 				for (JsonValue preModVal : preMods) {
 					String preMod = ((JsonString)preModVal).getString();
@@ -184,6 +197,24 @@ public class NpcGenerator {
 				for (JsonValue finishedDialogVal : finishedDialogs) {
 					String finishedDialog = ((JsonString)finishedDialogVal).getString();
 					addToHashmapList(tagName, finishedDialog, finishedDialogTagMap);
+				}
+			}
+			if (namesList != null) {
+				for (JsonValue nameVal : namesList) {
+					String name = ((JsonString)nameVal).getString();
+					addToHashmapList(tagName, name, nameTagMap);
+				}
+			}
+			if (takesList != null) {
+				for (JsonValue takeVal : takesList) {
+					String takeTag = ((JsonString)takeVal).getString();
+					addToHashmapList(tagName, takeTag, npcTakesTag);
+				}
+			}
+			if (givesList != null) {
+				for (JsonValue giveVal : givesList) {
+					String giveTag = ((JsonString)giveVal).getString();
+					addToHashmapList(giveTag, tagName, npcRewardsTag);
 				}
 			}
 		}
@@ -224,18 +255,50 @@ public class NpcGenerator {
 		return npc;
 	}
 	
+	public List<Item> getNPCTakes(NPC npc, ItemGenerator itemGen) {
+		ArrayList<Item> takesItems = new ArrayList<>();
+		List<String> npcTags = getTags(npc.getIdentifier());
+		for (String npcTag : npcTags) {
+			List<String> itemTags = npcTakesTag.get(npcTag);
+			for (String itemTag : itemTags) {
+				takesItems.addAll(itemGen.getItemsWithTag(itemTag));
+			}
+		}
+		return takesItems;
+	}
+	
+	public List<NPC> getNPCRewards(Item itemTagName) {
+		ArrayList<NPC> rewardNPCs = new ArrayList<>();
+		List<String> itemTags = getTags(itemTagName.getIdentifier());
+		for (String itemTag : itemTags) {
+			List<String> npcTags = npcTakesTag.get(itemTag);
+			for (String npcTag: npcTags) {
+				rewardNPCs.addAll(getNPCsWithTag(npcTag));
+			}
+		}
+		return rewardNPCs;
+	}
+	
+	private List<NPC> getNPCsWithTag(String npcTag) {
+		List<NPC> npcs = new ArrayList<>();
+		for (String npcName : nameTagMap.get(npcTag)){
+			npcs.add(getNpc(npcName));
+		}
+		return npcs;
+	}
+	
 	private NPC generateNPC(String name) {
-		String preString = getRandom(preModsMap.get(name)) + " ";
+		String preString = getRandom(preModsTagMap.get(name)) + " ";
 		if (preString.length() <= 1) preString = "";
-		String postString = " " + getRandom(postModsMap.get(name));
+		String postString = " " + getRandom(postModsTagMap.get(name));
 		if (postString.length() <= 1) postString = "";
-		String locString = " " + getRandom(locsMap.get(name));
+		String locString = " " + getRandom(locsTagMap.get(name));
 		if (locString.length() <= 1) locString = "";
-		String requestDialog = " " + getRandom(requestDialogMap.get(name));
+		String requestDialog = " " + getRandom(requestDialogTagMap.get(name));
 		if (requestDialog.length() <= 1) requestDialog = "";
-		String acceptDialog = " " + getRandom(acceptDialogMap.get(name));
+		String acceptDialog = " " + getRandom(acceptDialogTagMap.get(name));
 		if (acceptDialog.length() <= 1) acceptDialog = "";
-		String finishedDialog = " " + getRandom(finishedDialogMap.get(name));
+		String finishedDialog = " " + getRandom(finishedDialogTagMap.get(name));
 		if (finishedDialog.length() <= 1) finishedDialog = "";
 
 		String fullName = preString+name+postString;

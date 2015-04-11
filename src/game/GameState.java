@@ -20,26 +20,12 @@ public class GameState {
 	private Random rand;
 	private List<Item> inventory = new ArrayList<>();;
 	
-	private String[] testNouns = {"cat", "dog", "bicycle", "block of jello", "sword", "cannonball"};
-	private String[] testAdjs = {"red", "shiny", "blue", "expensive-looking", "sharp", "bizarre"};
-	private String[] testLocs = {"on a shelf", "on the ground", "lying abandoned", "in the dust", "nearby"};
-	
-	private String rStr(String[] arr){
-		return arr[rand.nextInt(arr.length)];
-	}
-	
 	public GameState() {
 		rand = new Random();
 		
 		for (int i = 0; i < GRID_WIDTH; i++) {
 			for (int j = 0; j < GRID_HEIGHT; j++) {
 				grid[i][j] = new Room(this, "name", "This is the room at " + i + ", " + j, i, j);
-//				for (int r = rand.nextInt(5); r > 0; r--){
-//					String noun = rStr(testNouns);
-//					String name = rStr(testAdjs)+" "+noun;
-//					grid[i][j].addEntity(new Item(noun, name, 
-//							"You see a "+name+" "+rStr(testLocs)+"."));
-//				}
 			}
 		}
 		
@@ -49,7 +35,6 @@ public class GameState {
 			node.npc.setTradeRule(node);
 			grid[rand.nextInt(GRID_WIDTH)][rand.nextInt(GRID_HEIGHT)].addEntity(node.npc);
 			if (node.childNode == null) {
-//				grid[5][5].addEntity(node.receive);
 				grid[rand.nextInt(GRID_WIDTH)][rand.nextInt(GRID_HEIGHT)].addEntity(node.receive);
 			}
 			node = node.childNode;
