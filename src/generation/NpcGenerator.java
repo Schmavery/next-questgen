@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class NpcGenerator {
 	private HashMap<String, ArrayList<String>> requestDialogMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> acceptDialogMap = new HashMap<>();
 	
-	private ArrayList<String> tags = new ArrayList<>();
+	private HashMap<String, ArrayList<String>> tags = new HashMap<>(); // maps from npcNames to tags
 	private HashMap<String, ArrayList<String>> preModsTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> postModsTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> locsTagMap = new HashMap<>();
@@ -100,6 +101,7 @@ public class NpcGenerator {
 			if (npcTags != null) {
 				for (JsonValue tagVal : npcTags) {
 					String tag = ((JsonString)tagVal).getString();
+					addToHashmapList(name, tag, tags);
 					addToHashmapList(name, preModsTagMap.get(tag), preModsMap);
 					addToHashmapList(name, postModsTagMap.get(tag), postModsMap);
 					addToHashmapList(name, locsTagMap.get(tag), locsMap);
@@ -128,7 +130,6 @@ public class NpcGenerator {
 		JsonArray acceptDialogs;
 		JsonObject tag;
 		for (String tagName : tagSet) {
-			tags.add(tagName);
 			tag = object.getJsonObject(tagName);
 			preMods = tag.getJsonArray("pre-modifiers");
 			postMods = tag.getJsonArray("post-modifiers");
@@ -190,6 +191,10 @@ public class NpcGenerator {
 		list.addAll(appendList);
 	}
 	
+	public List<String> getTags(String npcName) {
+		return tags.get(npcName);
+	}
+	
 	public NPC getNpc (String npcName) {
 		NPC npc = npcs.get(npcName);
 		if (npc == null) {
@@ -198,9 +203,7 @@ public class NpcGenerator {
 		}
 		return npc;
 	}
-
-//	requestDialogMap = new HashMap<>();
-//	private HashMap<String, ArrayList<String>> acceptDialogMap
+	
 	private NPC generateNPC(String name) {
 		String preString = getRandom(preModsMap.get(name)) + " ";
 		if (preString.length() <= 1) preString = "";

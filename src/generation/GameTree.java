@@ -10,7 +10,7 @@ public class GameTree {
 	
 
 	public GameTree() {
-		generator = new TradeGenerator("./json/npcrules.json", "./json/items.json", "./json/npcs.json", "./json/itemTags.json", "./json/npcTags.json");
+		generator = new TradeGenerator();
 		if (!generateTree())
 			throw new RuntimeException("FAILED TO GENERATE A VALID TREE: TIMEOUT");
 		TradeNode n = root;

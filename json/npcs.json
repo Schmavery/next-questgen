@@ -31,7 +31,7 @@
 		"accept-dialogs": [
 			"Awesome! What a great [give], here take my [take]."
 		],
-		"tags":["monster"]
+		"tags":["townsfolk"]
 	},
 
 	"dragon": {
@@ -54,6 +54,6 @@
 		"accept-dialogs": [
 			"The dragon recoils in fear when it realizes you've got a [give]. You attack it, and see it disintegrate into acid."
 		],
-		"tags":["townsfolk"]
+		"tags":["monster"]
 	}
 }
