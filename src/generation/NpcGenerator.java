@@ -28,6 +28,7 @@ public class NpcGenerator {
 	private HashMap<String, ArrayList<String>> locsMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> requestDialogMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> acceptDialogMap = new HashMap<>();
+	private HashMap<String, ArrayList<String>> finishedDialogMap = new HashMap<>();
 	
 	private HashMap<String, ArrayList<String>> tags = new HashMap<>(); // maps from npcNames to tags
 	private HashMap<String, ArrayList<String>> preModsTagMap = new HashMap<>();
@@ -35,6 +36,8 @@ public class NpcGenerator {
 	private HashMap<String, ArrayList<String>> locsTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> requestDialogTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> acceptDialogTagMap = new HashMap<>();
+	private HashMap<String, ArrayList<String>> finishedDialogTagMap = new HashMap<>();
+	
 
 
 	private Random random;
@@ -57,6 +60,7 @@ public class NpcGenerator {
 		JsonArray locs;
 		JsonArray requestDialogs;
 		JsonArray acceptDialogs;
+		JsonArray finishedDialogs;
 		JsonArray npcTags;
 		JsonObject npcRules;
 		for (String name : nameSet) {
@@ -67,6 +71,7 @@ public class NpcGenerator {
 			locs = npcRules.getJsonArray("locations");
 			requestDialogs = npcRules.getJsonArray("request-dialogs");
 			acceptDialogs = npcRules.getJsonArray("accept-dialogs");
+			finishedDialogs = npcRules.getJsonArray("finished-dialogs");
 			npcTags = npcRules.getJsonArray("tags");
 			if (preMods != null) {
 				for (JsonValue preModVal : preMods) {
@@ -98,6 +103,12 @@ public class NpcGenerator {
 					addToHashmapList(name, acceptDialog, acceptDialogMap);
 				}
 			}
+			if (finishedDialogs != null) {
+				for (JsonValue finishedDialogVal : acceptDialogs) {
+					String finishedDialog = ((JsonString)finishedDialogVal).getString();
+					addToHashmapList(name, finishedDialog, finishedDialogMap);
+				}
+			}
 			if (npcTags != null) {
 				for (JsonValue tagVal : npcTags) {
 					String tag = ((JsonString)tagVal).getString();
@@ -107,6 +118,7 @@ public class NpcGenerator {
 					addToHashmapList(name, locsTagMap.get(tag), locsMap);
 					addToHashmapList(name, requestDialogTagMap.get(tag), requestDialogMap);
 					addToHashmapList(name, acceptDialogTagMap.get(tag), acceptDialogMap);
+					addToHashmapList(name, finishedDialogTagMap.get(tag), finishedDialogMap);
 				}
 			}
 		}
@@ -128,6 +140,7 @@ public class NpcGenerator {
 		JsonArray locs;
 		JsonArray requestDialogs;
 		JsonArray acceptDialogs;
+		JsonArray finishedDialogs;
 		JsonObject tag;
 		for (String tagName : tagSet) {
 			tag = object.getJsonObject(tagName);
@@ -136,6 +149,7 @@ public class NpcGenerator {
 			locs = tag.getJsonArray("locations");
 			requestDialogs = tag.getJsonArray("request-dialogs");
 			acceptDialogs = tag.getJsonArray("accept-dialogs");
+			finishedDialogs = tag.getJsonArray("finished-dialogs");
 			if (preMods != null) {
 				for (JsonValue preModVal : preMods) {
 					String preMod = ((JsonString)preModVal).getString();
@@ -164,6 +178,12 @@ public class NpcGenerator {
 				for (JsonValue acceptDialogVal : acceptDialogs) {
 					String acceptDialog = ((JsonString)acceptDialogVal).getString();
 					addToHashmapList(tagName, acceptDialog, acceptDialogTagMap);
+				}
+			}
+			if (finishedDialogs != null) {
+				for (JsonValue finishedDialogVal : finishedDialogs) {
+					String finishedDialog = ((JsonString)finishedDialogVal).getString();
+					addToHashmapList(tagName, finishedDialog, finishedDialogTagMap);
 				}
 			}
 		}
@@ -215,9 +235,12 @@ public class NpcGenerator {
 		if (requestDialog.length() <= 1) requestDialog = "";
 		String acceptDialog = " " + getRandom(acceptDialogMap.get(name));
 		if (acceptDialog.length() <= 1) acceptDialog = "";
+		String finishedDialog = " " + getRandom(finishedDialogMap.get(name));
+		if (finishedDialog.length() <= 1) finishedDialog = "";
+
 		String fullName = preString+name+postString;
 
-		return new NPC(name, fullName, "You see a "+name+locString, requestDialog, acceptDialog);
+		return new NPC(name, fullName, "You see a "+name+locString, requestDialog, acceptDialog, finishedDialog);
 	}
 	
 	private String getRandom(ArrayList<String> list) {

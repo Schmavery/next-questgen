@@ -79,7 +79,7 @@ public class TradeGenerator {
 					list = new ArrayList<>();
 					npcTakes.put(npc, list);
 				}
-				list.add(item);				
+				list.add(item);
 			}
 			
 			List<String> npcTags = npcGenerator.getTags(npcName);

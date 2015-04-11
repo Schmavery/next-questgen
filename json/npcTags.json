@@ -22,6 +22,10 @@
 		],
 		"accept-dialogs": [
 			"Awesome! What a great [give], here take my [take]."
+		],
+		"finished-dialogs":[
+			"Thanks again for the [give]!",
+			"That [give] you got me wasn't as good as I'd hoped..."
 		]
 	},
 	"monster": {
@@ -47,7 +51,11 @@
 			"You sense it has a [give] vulnerability."
 		],
 		"accept-dialogs": [
-			"The monster recoils in fear when it realizes you've got a [give]. You attack it, and see it disintegrate into acid."
+			"The monster recoils in fear when it realizes you've got a [give]. You attack it, and see it disintegrate into acid. You see under it is a [take]."
+		],
+		"finished-dialogs":[
+			"The beast lies dead."
 		]
+
 	}
 }

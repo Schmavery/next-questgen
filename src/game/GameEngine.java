@@ -110,7 +110,7 @@ public class GameEngine {
 					}
 					state.getInventory().remove(oldItem);
 					state.getInventory().add(newItem);
-					return npc.talk();
+					return npc.acceptTradeTalk();
 				}
 			}
 			break;
