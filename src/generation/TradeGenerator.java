@@ -9,12 +9,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonString;
-import javax.json.JsonValue;
+import com.sun.corba.se.impl.orbutil.graph.Node;
 
 import entities.Item;
 import entities.NPC;
@@ -37,14 +32,14 @@ public class TradeGenerator {
 //	private HashMap<String, ArrayList<Item>> npcTakes = new HashMap<>();
 //	private HashMap<Item, ArrayList<String>> npcRewards = new HashMap<>();
 	
-	private HashMap<NPC, ArrayList<Item>> npcTakes = new HashMap<>();
-	private HashMap<Item, ArrayList<NPC>> npcRewards = new HashMap<>();
+//	private HashMap<NPC, ArrayList<Item>> npcTakes = new HashMap<>();
+//	private HashMap<Item, ArrayList<NPC>> npcRewards = new HashMap<>();
 //	npcTagTakesTag
 //	npcTagRewardsTag
 	
 	
-	private HashMap<String, ArrayList<Item>> tagTakes = new HashMap<>();
-	private HashMap<String, ArrayList<Item>> tagRewards = new HashMap<>();
+//	private HashMap<String, ArrayList<Item>> tagTakes = new HashMap<>();
+//	private HashMap<String, ArrayList<Item>> tagRewards = new HashMap<>();
 	
 	Random rand = new Random();
 	
@@ -178,48 +173,46 @@ public class TradeGenerator {
 //	}
 		
 	public TradeNode generateRootTradeNode() {
-		NPC npc = getRandomNPC(new ArrayList<>(npcTakes.keySet()));
-		Item receiveItem = getRandomItem(npcTakes.get(npc));
+		NPC npc = npcGenerator.getRandomNpc();
+		Item receiveItem = getRandomItem(npcGenerator.getNPCTakes(npc, itemGenerator));
 		if (receiveItem == null) return null;
 		return new TradeNode(npc, receiveItem, null);
 	}
 	
+	public void removeUsedNPCs(TradeNode node, List<NPC> npcs){
+		if (node.isTrade()){
+			npcs.remove(node.npc);
+		}
+		if (node.getChildren() == null) return;
+		for (TradeNode child : node.getChildren()){
+			removeUsedNPCs(child, npcs);
+		}
+	}
+	
+	public void removeUsedItems(TradeNode node, List<Item> items){
+		items.removeAll(node.getReceives());
+		if (node.getChildren() == null) return;
+		for (TradeNode child : node.getChildren()){
+			removeUsedItems(child, items);
+		}
+	}
+	
 	// ParentTradeNode is the trade which we will perform after the one being generated.
-	public List<TradeNode> generateTradeNode (TradeNode parentTradeNode) {
+	public List<TradeNode> generateTradeNode (TradeNode parentTradeNode, TradeNode root) {
 		System.out.println("here");
 		// item that our new trade must give
-		// TODO: Check more than the first item
 		Item giveItem = parentTradeNode.getReceives().get(0);
-		Set<NPC> usedNpcs = new HashSet<>();
-		Set<Item> usedItems = new HashSet<>();
-		TradeNode node = parentTradeNode;
-		while (node != null) {
-			usedNpcs.add(node.npc);
-			usedItems.add(node.getReward());
-			node = node.parentNode;
-		}
-		ArrayList<NPC> npcCandidatesRaw = npcRewards.get(giveItem);
-		ArrayList<NPC> npcCandidates = (ArrayList<NPC>) ((npcCandidatesRaw == null) ? null : npcCandidatesRaw.clone());
-		if (usedNpcs != null && npcCandidates != null) {
-			for (NPC npc : usedNpcs) {
-				if (npcCandidates.contains(npc)) {
-					npcCandidates.remove(npc);
-				}
-			}
-		}
-		
+
+		List<NPC> npcCandidatesRaw = npcGenerator.getNPCRewards(giveItem, itemGenerator);
+		List<NPC> npcCandidates = new ArrayList<>(npcCandidatesRaw);
+		removeUsedNPCs(root, npcCandidates);
 		NPC npc = getRandomNPC(npcCandidates);
 		if (npc == null) return null;
 		System.out.println("picking: " + npc.getIdentifier());
 		
-		ArrayList<Item> receiveItemCandidatesRaw = npcTakes.get(npc);
-		ArrayList<Item> receiveItemCandidates = (ArrayList<Item>) ((receiveItemCandidatesRaw == null) ? null : receiveItemCandidatesRaw.clone());
-		if (usedItems != null && receiveItemCandidates != null) {
-			for (Item item : usedItems) {
-				if (receiveItemCandidates.contains(item))
-					receiveItemCandidates.remove(item);
-			}
-		}
+		List<Item> receiveItemCandidatesRaw = npcGenerator.getNPCTakes(npc, itemGenerator);
+		List<Item> receiveItemCandidates = new ArrayList<>(receiveItemCandidatesRaw);
+		removeUsedItems(root, receiveItemCandidates);
 		
 		Item receiveItem = getRandomItem(receiveItemCandidates);
 		if (receiveItem == null) return null;
@@ -230,12 +223,12 @@ public class TradeGenerator {
 	}
 	
 	
-	private NPC getRandomNPC(ArrayList<NPC> npcs) {
+	private NPC getRandomNPC(List<NPC> npcs) {
 		if (npcs == null || npcs.size() == 0) return null;
 		return npcs.get(rand.nextInt(npcs.size()));
 	}
 	
-	private Item getRandomItem(ArrayList<Item> items) {
+	private Item getRandomItem(List<Item> items) {
 		if (items == null || items.size() == 0) return null;
 		return items.get(rand.nextInt(items.size()));
 	}

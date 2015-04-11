@@ -26,7 +26,7 @@ public class GameTree {
 		}
 		List<TradeNode> children = null;
 		while (children == null) {
-			children = generator.generateTradeNode(node);
+			children = generator.generateTradeNode(node, root);
 		}
 		node.setChildren(children);
 		for (TradeNode n : children){

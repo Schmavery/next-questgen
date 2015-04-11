@@ -122,6 +122,10 @@ public class ItemGenerator {
 		}
 		return items;
 	}
+	
+	public List<String> getTags(String itemName) {
+		return nounsTagMap.get(itemName);
+	}
 
 	public Item getItem(String itemNoun) {
 		Item item = items.get(itemNoun);

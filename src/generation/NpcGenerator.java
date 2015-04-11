@@ -3,6 +3,7 @@ package generation;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -38,6 +39,7 @@ public class NpcGenerator {
 	private HashMap<String, ArrayList<String>> acceptDialogTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> finishedDialogTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> nameTagMap = new HashMap<>();
+	private HashMap<String, ArrayList<String>> tagNameMap = new HashMap<>();
 
 	
 //	private HashMap<NPC, ArrayList<Item>> npcTakes = new HashMap<>();
@@ -202,7 +204,8 @@ public class NpcGenerator {
 			if (namesList != null) {
 				for (JsonValue nameVal : namesList) {
 					String name = ((JsonString)nameVal).getString();
-					addToHashmapList(tagName, name, nameTagMap);
+					addToHashmapList(name, tagName, nameTagMap);
+					addToHashmapList(tagName, name, tagNameMap);
 				}
 			}
 			if (takesList != null) {
@@ -243,7 +246,7 @@ public class NpcGenerator {
 	}
 	
 	public List<String> getTags(String npcName) {
-		return tags.get(npcName);
+		return nameTagMap.get(npcName);
 	}
 	
 	public NPC getNpc (String npcName) {
@@ -253,6 +256,21 @@ public class NpcGenerator {
 			npcs.put(npcName, npc);
 		}
 		return npc;
+	}
+	
+	public NPC getRandomNpc () {
+		List<String> npcNames = getAllNPCNames();
+		return getNpc(getRandom(npcNames));
+	}
+	
+	private List<String> getAllNPCNames() {
+		List<String> npcNames = new ArrayList<>();
+		for (ArrayList<String> names : tagNameMap.values()) {
+			for (String name : names) {
+				npcNames.add(name);
+			}
+		}
+		return npcNames;
 	}
 	
 	public List<Item> getNPCTakes(NPC npc, ItemGenerator itemGen) {
@@ -267,11 +285,12 @@ public class NpcGenerator {
 		return takesItems;
 	}
 	
-	public List<NPC> getNPCRewards(Item itemTagName) {
+	public List<NPC> getNPCRewards(Item itemTagName, ItemGenerator itemGenerator) {
 		ArrayList<NPC> rewardNPCs = new ArrayList<>();
-		List<String> itemTags = getTags(itemTagName.getIdentifier());
+		
+		List<String> itemTags = itemGenerator.getTags(itemTagName.getIdentifier());
 		for (String itemTag : itemTags) {
-			List<String> npcTags = npcTakesTag.get(itemTag);
+			List<String> npcTags = npcRewardsTag.get(itemTag);
 			for (String npcTag: npcTags) {
 				rewardNPCs.addAll(getNPCsWithTag(npcTag));
 			}
@@ -281,7 +300,7 @@ public class NpcGenerator {
 	
 	private List<NPC> getNPCsWithTag(String npcTag) {
 		List<NPC> npcs = new ArrayList<>();
-		for (String npcName : nameTagMap.get(npcTag)){
+		for (String npcName : tagNameMap.get(npcTag)){
 			npcs.add(getNpc(npcName));
 		}
 		return npcs;
@@ -306,7 +325,7 @@ public class NpcGenerator {
 		return new NPC(name, fullName, "You see a "+name+locString, requestDialog, acceptDialog, finishedDialog);
 	}
 	
-	private String getRandom(ArrayList<String> list) {
+	private String getRandom(List<String> list) {
 		if (list == null || list.size() == 0) return "";
 		return list.get(random.nextInt(list.size()));
 	}
