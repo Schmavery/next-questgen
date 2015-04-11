@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import entities.Entity;
 import entities.Entity.EntityType;
+import entities.Combination;
 import entities.Item;
 import entities.NPC;
 
@@ -47,6 +48,36 @@ public class GameEngine {
 		List<Entity> matches;
 		String [] split = null;
 		switch (tokens[0].toLowerCase()){
+		case "combine":
+		case "craft":
+			split = Utils.stripFirst(tokens).split("\\s+(and|with)\\s+");
+			if (split.length == 2){
+				List<Entity> firstMatch = Utils.getMatches(split[0], EntityType.ITEM, state.getInventory());
+				List<Entity> secondMatch = Utils.getMatches(split[1], EntityType.ITEM, state.getInventory());
+				if (firstMatch.isEmpty() || secondMatch.isEmpty()){
+					return "You can't see that here.";
+				} else if (firstMatch.size() == 1 && secondMatch.size() == 1){
+					Item first = (Item) firstMatch.get(0);
+					Item second = (Item) secondMatch.get(0);
+					Item result = null;
+					for (Combination c : state.getCombinations()){
+						if ((result = c.tryCombine(first, second)) != null){
+							break;
+						}
+					}
+					if (result == null){
+						return "You are unable to combine these items.";
+					} else {
+						return "You combine the items to product a "+result.getName();
+					}
+				} else if (firstMatch.size() > 1){
+					return Utils.multiMatchResponse(firstMatch);
+				} else {
+					return Utils.multiMatchResponse(secondMatch);
+				}
+			} else {
+				return "I don't understand, to combine items, do 'combine item1 and item2'.";
+			}
 		case "talk":
 			matches = state.getCurrRoom().getMatches(Utils.stripFirst(tokens), EntityType.ANY);
 			if (matches.isEmpty()){

@@ -101,6 +101,10 @@ public class GameState {
 		return inventory;
 	}
 	
+	public List<Combination> getCombinations(){
+		return combinations;
+	}
+	
 	public String lookInventory(){
 		if (inventory.isEmpty()){
 			return "You aren't carrying anything.";
