@@ -18,8 +18,8 @@ public class NPC extends Entity {
 	}
 	
 	public void setTradeRule(TradeNode node) {
-		requires = node.receive;
-		reward = node.give;
+		requires = node.getReceives().get(0);
+		reward = node.getReward();
 		// TODO: Fix a/an by looking at whether next word starts with vowel or consonant.
 		//		 replace markers in dialog with item names.
 		// https://github.com/rigoneri/indefinite-article.js/blob/master/indefinite-article.js

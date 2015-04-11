@@ -9,7 +9,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import javax.json.*;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonString;
+import javax.json.JsonValue;
 
 import entities.Item;
 import entities.NPC;
@@ -180,16 +185,17 @@ public class TradeGenerator {
 	}
 	
 	// ParentTradeNode is the trade which we will perform after the one being generated.
-	public TradeNode generateTradeNode (TradeNode parentTradeNode) {
+	public List<TradeNode> generateTradeNode (TradeNode parentTradeNode) {
 		System.out.println("here");
 		// item that our new trade must give
-		Item giveItem = parentTradeNode.receive;
+		// TODO: Check more than the first item
+		Item giveItem = parentTradeNode.getReceives().get(0);
 		Set<NPC> usedNpcs = new HashSet<>();
 		Set<Item> usedItems = new HashSet<>();
 		TradeNode node = parentTradeNode;
 		while (node != null) {
 			usedNpcs.add(node.npc);
-			usedItems.add(node.give);
+			usedItems.add(node.getReward());
 			node = node.parentNode;
 		}
 		ArrayList<NPC> npcCandidatesRaw = npcRewards.get(giveItem);
@@ -218,7 +224,9 @@ public class TradeGenerator {
 		Item receiveItem = getRandomItem(receiveItemCandidates);
 		if (receiveItem == null) return null;
 		
-		return new TradeNode(npc, receiveItem, giveItem);
+		List<TradeNode> tns = new ArrayList<>();
+		tns.add(new TradeNode(npc, receiveItem, giveItem));
+		return tns;
 	}
 	
 	

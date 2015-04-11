@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.sun.corba.se.impl.orbutil.graph.Node;
-
+import entities.Combination;
 import entities.Item;
 import entities.Room;
 import game.GameEngine.Direction;
@@ -18,7 +17,8 @@ public class GameState {
 	private Room[][] grid = new Room[GRID_WIDTH][GRID_HEIGHT];
 	private Room currRoom;
 	private Random rand;
-	private List<Item> inventory = new ArrayList<>();;
+	private List<Item> inventory = new ArrayList<>();
+	private List<Combination> combinations = new ArrayList<>();
 	
 	public GameState() {
 		rand = new Random();
@@ -30,16 +30,27 @@ public class GameState {
 		}
 		
 		GameTree gameTree = new GameTree();
-		TradeNode node = gameTree.getRoot();
-		while (node != null) {
-			node.npc.setTradeRule(node);
-			grid[rand.nextInt(GRID_WIDTH)][rand.nextInt(GRID_HEIGHT)].addEntity(node.npc);
-			if (node.childNode == null) {
-				grid[rand.nextInt(GRID_WIDTH)][rand.nextInt(GRID_HEIGHT)].addEntity(node.receive);
-			}
-			node = node.childNode;
-		}
+		addTree(gameTree.getRoot());
 		currRoom = grid[rand.nextInt(GRID_WIDTH)][rand.nextInt(GRID_HEIGHT)];
+	}
+	
+	public void addTree(TradeNode node){
+		if (node.isTrade()){
+			node.npc.setTradeRule(node);
+			grid[rand.nextInt(GRID_WIDTH)][rand.nextInt(GRID_HEIGHT)].addEntity(node.npc);			
+		} else {
+			combinations.add(new Combination(node.getReceives().get(0), 
+					node.getReceives().get(1), node.getReward()));
+		}
+		if (node.isLeaf()) {
+			for (Item r : node.getReceives()){
+				grid[rand.nextInt(GRID_WIDTH)][rand.nextInt(GRID_HEIGHT)].addEntity(r);				
+			}
+		} else {
+			for (TradeNode tn : node.getChildren()){
+				addTree(tn);
+			}
+		}
 	}
 	
 	public Room getRoom(int x, int y) {
