@@ -20,12 +20,25 @@ public class GameState {
 	private List<Item> inventory = new ArrayList<>();
 	private List<Combination> combinations = new ArrayList<>();
 	
+	private String[] locs = {"forest", "forest clearing", "town square", "plain", "house", "desert",
+			"desert", "street", "jungle", "cliff", "ship", "shop", "well", "volcano"};
+	private String[] adjs = {"abandoned", "mysterious", "brightly lit", "breezy", 
+			"uncomfortably warm", "uncomfortably cold", "eerily quiet", "quiet", "dimly lit"};
+	
+	private String rWord(String[] words){
+		return words[rand.nextInt(words.length)];
+	}
+	
 	public GameState() {
 		rand = new Random();
 		
 		for (int i = 0; i < GRID_WIDTH; i++) {
 			for (int j = 0; j < GRID_HEIGHT; j++) {
-				grid[i][j] = new Room(this, "name", "This is the room at " + i + ", " + j, i, j);
+				if (rand.nextFloat() < 0.5){
+					grid[i][j] = new Room(this, "name", "You are in a "+rWord(adjs)+" "+rWord(locs)+".", i, j);
+				} else {
+					grid[i][j] = new Room(this, "name", "You are in a "+rWord(locs)+".", i, j);
+				}
 			}
 		}
 		
