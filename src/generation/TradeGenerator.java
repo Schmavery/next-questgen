@@ -95,7 +95,7 @@ public class TradeGenerator {
 		}
 	}
 	
-	private final double combineTradeRatio = 1.0;
+	private final double combineTradeRatio = 0.4;
 	
 	// ParentTradeNode is the trade which we will perform after the one being generated.
 	public List<TradeNode> generateTradeNodes (TradeNode parentTradeNode, TradeNode root) {
@@ -125,6 +125,9 @@ public class TradeGenerator {
 					for (String tag : recipe) {
 						List<Item> items = new ArrayList<>(itemGenerator.getItemsWithTag(tag));
 						removeUsedItems(root, items);
+						for (TradeNode sibling : result) {
+							removeUsedItems(sibling, items);
+						}
 						recipeCandidate.add(items);
 					}
 					recipeCandidates.add(recipeCandidate);
@@ -135,6 +138,8 @@ public class TradeGenerator {
 			if (recipe.size() < 2) return null;
 			List<Item> receives = new ArrayList<>(2);
 			receives.add(getRandomItem(recipe.get(0)));
+			recipe.get(1).removeAll(receives);
+			if (recipe.size() < 1) return null;
 			receives.add(getRandomItem(recipe.get(1)));
 			
 			TradeNode node = new TradeNode(receives, giveItem);
@@ -152,12 +157,18 @@ public class TradeGenerator {
 			List<NPC> npcCandidatesRaw = npcGenerator.getNPCRewards(giveItem, itemGenerator);
 			List<NPC> npcCandidates = new ArrayList<>(npcCandidatesRaw);
 			removeUsedNPCs(root, npcCandidates);
+			for (TradeNode sibling : result) {
+				removeUsedNPCs(sibling, npcCandidates);
+			}
 			NPC npc = getRandomNPC(npcCandidates);
 			if (npc == null) return null;
 			
 			List<Item> receiveItemCandidatesRaw = npcGenerator.getNPCTakes(npc, itemGenerator);
 			List<Item> receiveItemCandidates = new ArrayList<>(receiveItemCandidatesRaw);
 			removeUsedItems(root, receiveItemCandidates);
+			for (TradeNode sibling : result) {
+				removeUsedItems(sibling, receiveItemCandidates);
+			}
 			
 			Item receiveItem = getRandomItem(receiveItemCandidates);
 			if (receiveItem == null) return null;
