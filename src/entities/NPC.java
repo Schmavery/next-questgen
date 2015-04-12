@@ -60,15 +60,6 @@ public class NPC extends Entity {
 		}
 	}
 	
-	@Override
-	public String look(){
-		if (tradeCompleted){
-			return finishedDialog;
-		} else {
-			return getDescription();
-		}
-	}
-	
 	public Item trade(Item i){
 		if (i.equals(requires) && !tradeCompleted) {
 			tradeCompleted = true;

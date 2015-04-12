@@ -144,8 +144,12 @@ public class TradeGenerator {
 			
 			TradeNode node = new TradeNode(receives, giveItem);
 			result.add(node);
+			parentTradeNode.addChild(node);
 		}
-		if (result.size() == 0) return null;
+		if (result.size() == 0) {
+			parentTradeNode.clearChildren();
+			return null;
+		}
 		return result;
 	}
 	
@@ -172,10 +176,14 @@ public class TradeGenerator {
 			
 			Item receiveItem = getRandomItem(receiveItemCandidates);
 			if (receiveItem == null) return null;
-			result.add(new TradeNode(npc, receiveItem, giveItem));
-
+			TradeNode tn = new TradeNode(npc, receiveItem, giveItem);
+			result.add(tn);
+			parentTradeNode.addChild(tn);
 		}
-		if (result.size() == 0) return null;
+		if (result.size() == 0) {
+			parentTradeNode.clearChildren();
+			return null;
+		}
 		return result;
 	}
 

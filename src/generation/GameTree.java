@@ -17,7 +17,7 @@ public class GameTree {
 		root = generator.generateRootTradeNode();
 		if (!generateTree(root, TREE_DEPTH))
 			throw new RuntimeException("FAILED TO GENERATE A VALID TREE: TIMEOUT");
-		prettyPrint();
+		System.out.println(root);
 	}
 	
 	public TradeNode getRoot() {
@@ -32,19 +32,10 @@ public class GameTree {
 		while (children == null) {
 			children = generator.generateTradeNodes(node, root);
 		}
-		node.setChildren(children);
 		for (TradeNode n : children){
 			node.parentNode = node;
 			generateTree(n, depth-1);
 		}
 		return true;
-	}
-	
-	public void prettyPrint() {
-		prettyPrint(root);
-	}
-	
-	private void prettyPrint(TradeNode node) {
-		
 	}
 }

@@ -39,6 +39,15 @@ public class TradeNode {
 		for (Item receive : receives){
 			sb.append("Wants: " + receive.getName() + "\n");
 		}
+		if (children != null){
+			sb.append("Children:{");
+			for (TradeNode node : children){
+				sb.append(node);
+			}
+			sb.append("}");			
+		} else {
+			sb.append("No children.");
+		}
 		return sb.toString();
 	}
 	
@@ -55,6 +64,10 @@ public class TradeNode {
 	
 	public List<TradeNode> getChildren(){
 		return children;
+	}
+	
+	public void clearChildren(){
+		children = null;
 	}
 	
 	public List<Item> getReceives(){
