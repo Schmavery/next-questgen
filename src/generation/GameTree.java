@@ -1,8 +1,5 @@
 package generation;
 
-import entities.Combination;
-import entities.Item;
-
 import java.util.List;
 
 public class GameTree {

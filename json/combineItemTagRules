@@ -1,6 +1,0 @@
-[
-	{
-		"takes": ["thing", "liquid"],
-		"gives": "potion"
-	}
-] 

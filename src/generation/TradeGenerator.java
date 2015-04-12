@@ -20,8 +20,6 @@ import entities.NPC;
 public class TradeGenerator {
 	
 	private static final String combineItemsRules = "./json/combineItemTagRules.json";
-	private static final String itemRulesFileName = "./json/items.json";
-	private static final String npcRulesFileName = "./json/npcs.json";
 	private static final String itemTagsJsonFileName = "./json/itemTags.json";
 	private static final String npcTagsJsonFileName = "./json/npcTags.json";
 		
@@ -34,8 +32,8 @@ public class TradeGenerator {
 	Random rand = new Random();
 	
 	public TradeGenerator () {
-		itemGenerator = new ItemGenerator(itemRulesFileName, itemTagsJsonFileName);
-		npcGenerator = new NpcGenerator(npcRulesFileName, npcTagsJsonFileName);
+		itemGenerator = new ItemGenerator(itemTagsJsonFileName);
+		npcGenerator = new NpcGenerator(npcTagsJsonFileName);
 		loadCombineRules();
 	}
 	

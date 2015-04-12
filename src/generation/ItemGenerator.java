@@ -23,11 +23,6 @@ public class ItemGenerator {
 	// This is a fancy flyweight
 	private HashMap<String, Item> items = new HashMap<>();
 
-//	private ArrayList<String> nouns = new ArrayList<>();
-//	private HashMap<String, ArrayList<String>> preModsMap = new HashMap<>();
-//	private HashMap<String, ArrayList<String>> postModsMap = new HashMap<>();
-//	private HashMap<String, ArrayList<String>> locsMap = new HashMap<>();
-	
 	private ArrayList<String> tags = new ArrayList<>();
 	private HashMap<String, ArrayList<String>> preModsTagMap = new HashMap<>();
 	private HashMap<String, ArrayList<String>> postModsTagMap = new HashMap<>();
@@ -35,7 +30,7 @@ public class ItemGenerator {
 	private HashMap<String, ArrayList<String>> nounsTagMap = new HashMap<>();
 
 	private Random random;
-	public ItemGenerator(String itemsJsonFileName, String itemTagsJsonFileName) {
+	public ItemGenerator(String itemTagsJsonFileName) {
 		random = new Random();
 		loadItemTagInfo(itemTagsJsonFileName);
 	}
@@ -101,17 +96,6 @@ public class ItemGenerator {
 		}
 		list.add(element);
 	}
-	
-//	private void addToHashmapList(String key, ArrayList<String> appendList, HashMap<String, ArrayList<String>> map) {
-//		if (appendList == null || appendList.size() == 0)
-//			return;
-//		ArrayList<String> list = map.get(key);
-//		if (list == null) {
-//			list = new ArrayList<>();
-//			map.put(key, list);
-//		}
-//		list.addAll(appendList);
-//	}
 
 	public List<Item> getItemsWithTag(String tag) {
 		List<Item> items = new ArrayList<Item>();
