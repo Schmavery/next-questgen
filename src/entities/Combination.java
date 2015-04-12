@@ -9,8 +9,8 @@ public class Combination {
 	}
 	
 	public Item tryCombine(Item i1, Item i2){
-		if (i1.equals(item1) && i2.equals(i2)
-				|| i1.equals(i2) && i2.equals(i1)){
+		if ((i1.equals(item1) && i2.equals(i2))
+				|| (i1.equals(item2) && i2.equals(item1))){
 			return result;
 		}
 		return null;

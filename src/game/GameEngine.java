@@ -62,6 +62,9 @@ public class GameEngine {
 					Item result = null;
 					for (Combination c : state.getCombinations()){
 						if ((result = c.tryCombine(first, second)) != null){
+							state.getInventory().remove(first);
+							state.getInventory().remove(second);
+							state.getInventory().add(result);
 							break;
 						}
 					}
@@ -172,7 +175,7 @@ public class GameEngine {
 		case "exit":
 		case "quit":
 			running = false;
-			break;
+			return "Thanks for playing!";
 		case "north":
 		case "n":
 			dir = Direction.NORTH;
