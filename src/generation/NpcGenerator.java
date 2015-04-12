@@ -291,6 +291,7 @@ public class NpcGenerator {
 		List<String> itemTags = itemGenerator.getTags(itemTagName.getIdentifier());
 		for (String itemTag : itemTags) {
 			List<String> npcTags = npcRewardsTag.get(itemTag);
+			if (npcTags == null) continue;
 			for (String npcTag: npcTags) {
 				rewardNPCs.addAll(getNPCsWithTag(npcTag));
 			}

@@ -15,10 +15,16 @@ public class TradeNode {
 	private List<TradeNode> children;
 	public TradeNode parentNode;
 	
-	public TradeNode (NPC npc, Item receive, Item result) {
+	public TradeNode (NPC npc, Item receive, Item reward) {
 		this.npc = npc;
 		this.receives.add(receive);
-		this.reward = result;
+		this.reward = reward;
+	}
+	
+	// combine node
+	public TradeNode (List<Item> receives, Item reward) {
+		this.receives.addAll(receives);
+		this.reward = reward;
 	}
 	
 	public String toString () {

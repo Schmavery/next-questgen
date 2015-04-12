@@ -68,7 +68,7 @@ public class GameEngine {
 					if (result == null){
 						return "You are unable to combine these items.";
 					} else {
-						return "You combine the items to product a "+result.getName();
+						return "You combine the items to produce a "+result.getName();
 					}
 				} else if (firstMatch.size() > 1){
 					return Utils.multiMatchResponse(firstMatch);

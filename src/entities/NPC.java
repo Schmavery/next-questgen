@@ -1,7 +1,5 @@
 package entities;
 
-import java.io.StringWriter;
-
 import generation.TradeNode;
 
 public class NPC extends Entity {

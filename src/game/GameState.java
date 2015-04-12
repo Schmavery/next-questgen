@@ -39,6 +39,7 @@ public class GameState {
 			node.npc.setTradeRule(node);
 			grid[rand.nextInt(GRID_WIDTH)][rand.nextInt(GRID_HEIGHT)].addEntity(node.npc);			
 		} else {
+			System.out.println("Combine: " + node.getReceives().get(0).getIdentifier() + " with " + node.getReceives().get(1).getIdentifier() + " to get " + node.getReward().getIdentifier());
 			combinations.add(new Combination(node.getReceives().get(0), 
 					node.getReceives().get(1), node.getReward()));
 		}

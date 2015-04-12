@@ -64,5 +64,33 @@
 			"bread",
 			"pot"
 		]
+	},
+	"potion": {
+		"pre-modifiers": [
+			"goopy",
+			"clear",
+			"bubbling"
+		],
+		"post-modifiers": [
+			"of healing",
+			"of love",
+			""
+		],
+		"locations": [
+			"in a cup",
+			"in a jar",
+			"in a bathtub",
+			"in a vial"
+		],
+		"nouns": [
+			"polyjuice potion",
+			"sword",
+			"pot",
+			"duck",
+			"giraffe",
+			"bread",
+			"pot"
+		]
+
 	}
 }
