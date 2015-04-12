@@ -307,17 +307,18 @@ public class NpcGenerator {
 	}
 	
 	private NPC generateNPC(String name) {
-		String preString = getRandom(preModsTagMap.get(name)) + " ";
+		String tag = getRandom(getTags(name));
+		String preString = getRandom(preModsTagMap.get(tag)) + " ";
 		if (preString.length() <= 1) preString = "";
-		String postString = " " + getRandom(postModsTagMap.get(name));
+		String postString = " " + getRandom(postModsTagMap.get(tag));
 		if (postString.length() <= 1) postString = "";
-		String locString = " " + getRandom(locsTagMap.get(name));
+		String locString = " " + getRandom(locsTagMap.get(tag));
 		if (locString.length() <= 1) locString = "";
-		String requestDialog = " " + getRandom(requestDialogTagMap.get(name));
+		String requestDialog = " " + getRandom(requestDialogTagMap.get(tag));
 		if (requestDialog.length() <= 1) requestDialog = "";
-		String acceptDialog = " " + getRandom(acceptDialogTagMap.get(name));
+		String acceptDialog = " " + getRandom(acceptDialogTagMap.get(tag));
 		if (acceptDialog.length() <= 1) acceptDialog = "";
-		String finishedDialog = " " + getRandom(finishedDialogTagMap.get(name));
+		String finishedDialog = " " + getRandom(finishedDialogTagMap.get(tag));
 		if (finishedDialog.length() <= 1) finishedDialog = "";
 
 		String fullName = preString+name+postString;

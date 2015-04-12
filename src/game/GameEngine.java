@@ -112,6 +112,15 @@ public class GameEngine {
 			}
 		case "give":
 			split = Utils.stripFirst(tokens).split("\\s+to\\s+");
+		case "attack":
+			if (split == null){
+				split = Utils.stripFirst(tokens).split("\\s+with\\s+");
+				if (split.length == 2){
+					String tmpString = split[0];
+					split[0] = split[1];
+					split[1] = tmpString;
+				}
+			}
 		case "trade":
 			if (split == null)
 				split = Utils.stripFirst(tokens).split("\\s+with\\s+");

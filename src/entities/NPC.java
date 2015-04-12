@@ -1,5 +1,7 @@
 package entities;
 
+import java.io.StringWriter;
+
 import generation.TradeNode;
 
 public class NPC extends Entity {
@@ -57,6 +59,15 @@ public class NPC extends Entity {
 			return finishedDialog;
 		} else {
 			return requestDialog;
+		}
+	}
+	
+	@Override
+	public String look(){
+		if (tradeCompleted){
+			return finishedDialog;
+		} else {
+			return getDescription();
 		}
 	}
 	
