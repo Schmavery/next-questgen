@@ -1,0 +1,10 @@
+[
+	{
+		"takes": ["thing", "thing"],
+		"gives": "thing"
+	},
+	{
+		"takes": ["liquid", "liquid"],
+		"gives": "potion"
+	}
+] 
