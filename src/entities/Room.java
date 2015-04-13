@@ -55,7 +55,11 @@ public class Room implements Visible {
 	public String look(String object) {
 		List<Entity> matches = getMatches(object, EntityType.ANY);
 		if (matches.size() == 1){
-			return matches.get(0).look();
+			if (matches.get(0).getEntityType() == EntityType.ITEM){
+				return matches.get(0).look();				
+			} else {
+				return ((NPC) matches.get(0)).talk();	
+			}
 		} else if (matches.isEmpty()){
 			return "You can't see one of those here.";
 		} else {

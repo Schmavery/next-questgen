@@ -8,7 +8,7 @@ public class GameTree {
 	private final int TREE_DEPTH = 7;
 	private TradeGenerator generator;
 	
-	private final int MAX_LOCAL_RETRIES = 100;
+	private final int MAX_LOCAL_RETRIES = 10000;
 	private final int MAX_GLOBAL_RETRIES = 100;
 	
 	private int localRetriesCount = 0;

@@ -116,6 +116,7 @@ public class GameEngine {
 		case "give":
 			split = Utils.stripFirst(tokens).split("\\s+to\\s+");
 		case "attack":
+		case "open":
 			if (split == null){
 				split = Utils.stripFirst(tokens).split("\\s+with\\s+");
 				if (split.length == 2){

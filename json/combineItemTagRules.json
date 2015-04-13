@@ -1,10 +1,14 @@
 [
 	{
-		"takes": ["thing", "thing"],
-		"gives": "thing"
+		"takes": ["ingredient", "liquid"],
+		"gives": "potion"
 	},
 	{
 		"takes": ["liquid", "liquid"],
 		"gives": "potion"
+	},
+	{
+		"takes": ["ingredient", "ingredient"],
+		"gives": "food"
 	}
 ] 

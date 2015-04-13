@@ -1,4 +1,44 @@
 {
+	"container": {
+		"pre-modifiers": [
+			"old",
+			"rusty",
+			"broken",
+			""
+		],
+		"post-modifiers": [
+			""
+		],
+		"locations": [
+			"on a shelf",
+			"in the dust",
+			"under a table",
+			"in the middle of the room",
+			""
+		],
+		"request-dialogs": [
+			"You sense that you could open this with a [give]"
+		],
+		"accept-dialogs": [
+			"You use your [give] to open the container, finding a [take] inside."
+		],
+		"finished-dialogs":[
+			"The container lies empty."
+		],
+		"names":[
+			"box",
+			"crate",
+			"container",
+			"chest"
+		],
+		"gives":[
+			"weapon",
+			"potion"
+		],
+		"takes":[
+			"key"
+		]
+	},
 	"townsfolk": {
 		"pre-modifiers": [
 			"friendly",
@@ -14,6 +54,8 @@
 		"locations": [
 			"lazing around",
 			"lying wounded on the floor",
+			"pacing back and forth",
+			"wandering aimlessly",
 			""
 		],
 		"request-dialogs": [
@@ -28,17 +70,69 @@
 			"That [give] you got me wasn't as good as I'd hoped..."
 		],
 		"names":[
-			"shopkeeper",
-			"baker",
+			"beggar",
 			"loiterer",
-			"old man"
+			"old man",
+			"old woman"
 		],
 		"gives":[
-			"thing",
-			"liquid"
+			"weapon",
+			"liquid",
+      "key"
 		],
 		"takes":[
-			"thing"
+			"ingredient",
+			"liquid",
+			"money"
+		]
+	},
+	"townsfolk": {
+		"pre-modifiers": [
+			"friendly",
+			"businesslike",
+			"busy",
+			"well-clad",
+			"jaunty",
+			""
+		],
+		"post-modifiers": [
+			"staring blankly at you",
+			"working hard",
+			"writing on a piece of paper",
+			""
+		],
+		"locations": [
+			"counting gold coins",
+			"working at a counter",
+			"looking busy",
+			""
+		],
+		"request-dialogs": [
+			"I'd be glad to give you a [take], if you could bring me a [give]",
+			"Would you be interested in trading a [give] for a [take]?",
+			"Sorry, I'd be able to help you if I hadn't misplaced my [give]."
+		],
+		"accept-dialogs": [
+			"Awesome! What a great [give], here take my [take].",
+			"Here is a[take], thank you for your service."
+		],
+		"finished-dialogs":[
+			"Thanks again for the [give]!",
+			"I hope you're enjoying your new [take]!"
+		],
+		"names":[
+			"shopkeeper",
+			"baker",
+			"cook",
+			"chef"
+		],
+		"gives":[
+			"food",
+      "weapon"
+		],
+		"takes":[
+			"ingredient",
+			"money"
 		]
 	},
 	"monster": {
@@ -52,6 +146,7 @@
 		"post-modifiers": [
 			"asleep",
 			"charging you",
+			"waving its club",
 			"licking its lips ominously"
 		],
 		"locations": [
@@ -64,23 +159,46 @@
 			"You sense it has a [give] vulnerability."
 		],
 		"accept-dialogs": [
-			"The monster recoils in fear when it realizes you've got a [give]. You attack it, and see it disintegrate into acid. You see under it is a [take]."
+			"The monster recoils in fear when it realizes you've got a [give]. You attack it, and see it disintegrate into acid. You see under it is a [take].",
+			"The monster screeches when it sees your [give].  It grabs it from you and runs, leaving behind a [take].",
+			"The monster eats your [give] and dies, leaving behind a [take]."
 		],
 		"finished-dialogs":[
-			"The beast lies dead."
+			"The beast lies dead.",
+			"The smell of the beast lingers here."
 		],
 		"names":[
 			"dragon",
+			"bear",
+			"barbarian",
+			"valkyrie",
+			"goblin",
+			"gremlin",
+			"giant",
+			"vampire",
+			"werewolf",
+			"beholder",
+			"mimic",
+			"displacer beast",
+			"gelatinous cube",
+			"rust monster",
+			"owlbear",
+			"lich",
+			"mind flayer",
+			"mind flayer",
+			"tarrasque",
 			"worm",
 			"troll",
 			"sorcerer"
 		],
 		"gives":[
-			"thing"
+			"potion",
+      "money",
+      "key"
 		],
 		"takes": [
-			"liquid",
-			"thing"
+			"weapon",
+			"potion"
 		]
 
 	}

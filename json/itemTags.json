@@ -1,16 +1,90 @@
 {
-	"thing": {
+	"ingredient": {
 		"pre-modifiers": [
-			"amazing",
-			"shiny",
-			"tiny",
-			"weird",
-			"twisted",
-			"eerie",
-			"strange"
+			"cheap",
+			"moldy",
+			"moth-ridden",
+			"big bag of",
+			"bulk",
+			"dried",
+			"whole-grain",
+			"free range",
+			"organic",
+			"vegan",
+			"damp",
+      ""
 		],
 		"post-modifiers": [
-			"of doom",
+			"for cooking",
+			""
+		],
+		"locations": [
+			"on a shelf",
+			"in the dust",
+			"under a table",
+			"in the middle of the room",
+      ""
+		],
+		"nouns": [
+			"eggs",
+			"flour",
+			"oats",
+			"grains",
+			"sugar",
+			"butter",
+			"milk",
+			"salt",
+			"oil",
+			"yeast",
+			"grains"
+		]
+	},
+	"food": {
+		"pre-modifiers": [
+			"fried",
+			"roasted",
+			"browned",
+			"moldy",
+			"tasty",
+      ""
+		],
+		"post-modifiers": [
+			""
+		],
+		"locations": [
+			"on a shelf",
+			"in the dust",
+			"under a table",
+			"in the middle of the room",
+      ""
+		],
+		"nouns": [
+			"bread",
+      "porridge",
+			"chicken",
+			"chicken",
+			"pork",
+			"pasta",
+			"potatoes",
+			"cheese",
+			"cake",
+			"pudding",
+			"cookies",
+			"salad",
+			"gravy",
+			"steak"
+		]
+	},
+	"key": {
+		"pre-modifiers": [
+			"shiny",
+			"old",
+			"antique",
+			"golden",
+			"silver",
+			""
+		],
+		"post-modifiers": [
 			""
 		],
 		"locations": [
@@ -20,76 +94,129 @@
 			"in the middle of the room"
 		],
 		"nouns": [
-			"pot",
-			"spatula",
-			"duck",
-			"bread",
-			"money",
-			"giraffe",
-			"eggs",
-			"flour",
-			"bread",
-			"money",
-			"gold piece",
-			"duck",
-			"pot",
-			"eggs",
-			"flour",
-			"bread",
-			"spatula"
+			"key",
+			"keyring",
+      "lockpick"
+		]
+	},
+	"money": {
+		"pre-modifiers": [
+			"shiny",
+			"old",
+			"antique",
+			"golden",
+			"silver",
+			""
+		],
+		"post-modifiers": [
+			""
+		],
+		"locations": [
+			"on a shelf",
+			"in the dust",
+			"under a table",
+			"in the middle of the room"
+		],
+		"nouns": [
+			"coin",
+			"coin purse",
+      "bag of money"
+		]
+	},
+	"weapon": {
+		"pre-modifiers": [
+			"amazing",
+			"shiny",
+			"tiny",
+			"weird",
+			"twisted",
+			"crude",
+			"bloody",
+			"strange"
+		],
+		"post-modifiers": [
+			""
+		],
+		"locations": [
+			"on a shelf",
+			"in the dust",
+			"under a table",
+			"in the middle of the room"
+		],
+		"nouns": [
+			"bow",
+      "sword",
+			"arrow",
+			"spear",
+			"axe",
+			"shield"
 		]
 	},
 	"liquid": {
 		"pre-modifiers": [
 			"goopy",
 			"clear",
+			"holy",
+			"silvery",
+			"opaque",
 			"bubbling"
 		],
 		"post-modifiers": [
 			"reflecting your face",
+			"swirling around",
 			""
 		],
 		"locations": [
 			"in a cup",
 			"in a jar",
 			"in a bathtub",
+			"in a bottle",
 			"in a vial"
 		],
 		"nouns": [
-			"gold piece",
-			"sword",
-			"pot",
-			"duck",
-			"giraffe",
-			"bread",
-			"pot"
+			"coffee",
+			"milk",
+			"syrup",
+			"water",
+			"liquid",
+			"brew",
+			"broth",
+			"soup"
 		]
 	},
 	"potion": {
 		"pre-modifiers": [
 			"goopy",
 			"clear",
+			"holy",
 			"bubbling"
 		],
 		"post-modifiers": [
 			"of healing",
 			"of love",
-			""
+			"of see invisible",
+			"of confusion",
+			"of sickness",
+			"of sleeping",
+			"of invisibility",
+			"of monster detection",
+			"of levitation",
+			"of polymorph"
 		],
 		"locations": [
 			"in a cup",
 			"in a jar",
 			"in a bathtub",
+			"in a bottle",
 			"in a vial"
 		],
 		"nouns": [
-			"polyjuice potion",
-			"sword",
-			"duck",
-			"giraffe",
-			"bread",
-			"pot"
+			"potion",
+			"syrup",
+			"liquid",
+			"brew",
+			"broth",
+			"soup"
 		]
-
 	}
 }
