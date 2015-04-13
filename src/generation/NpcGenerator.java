@@ -222,7 +222,7 @@ public class NpcGenerator {
 
 		String fullName = preString+name+postString;
 
-		return new NPC(name, fullName, "You see a "+name+locString, requestDialog, acceptDialog, finishedDialog);
+		return new NPC(name, fullName, "You see a "+fullName+locString, requestDialog, acceptDialog, finishedDialog);
 	}
 	
 	private String getRandom(List<String> list) {
