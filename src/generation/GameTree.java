@@ -38,7 +38,7 @@ public class GameTree {
 					return false;
 				}
 				localRetriesCount = 0;
-				TradeNode root = generator.generateRootTradeNode();
+				root = generator.generateRootTradeNode();
 				return generateTree(root, TREE_DEPTH);
 			}
 		}
