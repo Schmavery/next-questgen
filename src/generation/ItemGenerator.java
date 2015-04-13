@@ -31,7 +31,7 @@ public class ItemGenerator {
 
 	private Random random;
 	public ItemGenerator(String itemTagsJsonFileName) {
-		random = new Random();
+		random = new Random(TradeGenerator.GEN_SEED + 2);
 		loadItemTagInfo(itemTagsJsonFileName);
 	}
 	

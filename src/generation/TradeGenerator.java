@@ -26,12 +26,17 @@ public class TradeGenerator {
 	private ItemGenerator itemGenerator;
 	private NpcGenerator npcGenerator;
 	
+	//public static final long GEN_SEED = System.currentTimeMillis();
+	public static final long GEN_SEED = 1428883615877l;
+	
 	// reward tag --> list of recipes.  recipe is a list of tags
 	private HashMap<String, List<List<String>>> combineRewardToRecipeMap = new HashMap<>();
 	
-	Random rand = new Random();
+	Random rand;
 	
 	public TradeGenerator () {
+		rand = new Random(GEN_SEED);
+		System.out.println("Seed: "+GEN_SEED);
 		itemGenerator = new ItemGenerator(itemTagsJsonFileName);
 		npcGenerator = new NpcGenerator(npcTagsJsonFileName);
 		loadCombineRules();

@@ -38,7 +38,7 @@ public class NpcGenerator {
 	private Random random;
 
 	public NpcGenerator (String npcTagsJsonFileName) {
-		random = new Random();
+		random = new Random(TradeGenerator.GEN_SEED + 1);
 		loadNpcTagInfo(npcTagsJsonFileName);
 	}
 	
