@@ -25,12 +25,11 @@ public class TradeGenerator {
 		
 	private ItemGenerator itemGenerator;
 	private NpcGenerator npcGenerator;
-	private final double combineTradeRatio = 0.4;
+	private final double combineTradeRatio = 0.6;
 	
 //	public static final long GEN_SEED = System.currentTimeMillis();
-//	public static final long GEN_SEED = 1428897294239l;
-	public static final long GEN_SEED = System.currentTimeMillis();
-//	public static final long GEN_SEED = 1428897294239l;
+	public static final long GEN_SEED = 1428945833391l;
+//	public static final long GEN_SEED = System.currentTimeMillis();
 	
 	// reward tag --> list of recipes.  recipe is a list of tags
 	private HashMap<String, List<List<String>>> combineRewardToRecipeMap = new HashMap<>();

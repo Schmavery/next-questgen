@@ -12,8 +12,8 @@ import generation.GameTree;
 import generation.TradeNode;
 
 public class GameState {
-	public static final int GRID_WIDTH = 1;
-	public static final int GRID_HEIGHT = 1;
+	public static final int GRID_WIDTH = 3;
+	public static final int GRID_HEIGHT = 3;
 	private Room[][] grid = new Room[GRID_WIDTH][GRID_HEIGHT];
 	private Room currRoom;
 	private Random rand;
