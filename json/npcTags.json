@@ -33,6 +33,7 @@
 		],
 		"gives":[
 			"weapon",
+			"ingredient",
 			"potion"
 		],
 		"takes":[
@@ -78,6 +79,7 @@
 		"gives":[
 			"weapon",
 			"liquid",
+			"ingredient",
       "key"
 		],
 		"takes":[
@@ -86,7 +88,7 @@
 			"money"
 		]
 	},
-	"townsfolk": {
+	"shopowners": {
 		"pre-modifiers": [
 			"friendly",
 			"businesslike",
