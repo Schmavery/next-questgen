@@ -5,7 +5,7 @@ import java.util.List;
 public class GameTree {
 	
 	private TradeNode root;
-	private final int TREE_DEPTH = 100;
+	private final int TREE_DEPTH = 7;
 	private TradeGenerator generator;
 	
 	private final int MAX_LOCAL_RETRIES = 100;
@@ -39,7 +39,7 @@ public class GameTree {
 				}
 				localRetriesCount = 0;
 				TradeNode root = generator.generateRootTradeNode();
-				generateTree(root, TREE_DEPTH);
+				return generateTree(root, TREE_DEPTH);
 			}
 		}
 		for (TradeNode n : children){
