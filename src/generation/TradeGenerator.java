@@ -28,7 +28,7 @@ public class TradeGenerator {
 	private final double combineTradeRatio = 0.4;
 	
 	//public static final long GEN_SEED = System.currentTimeMillis();
-	public static long GEN_SEED = 1428886472346l;
+	public static long GEN_SEED = 5334050692114210746l;
 	
 	// reward tag --> list of recipes.  recipe is a list of tags
 	private HashMap<String, List<List<String>>> combineRewardToRecipeMap = new HashMap<>();
@@ -112,6 +112,7 @@ public class TradeGenerator {
 		List<TradeNode> result = null;
 		if (rand.nextDouble() < combineTradeRatio) {
 			result = generateCombineTradeNodes(parentTradeNode, root);
+
 		}
 		if (result == null) {
 			result = generateNpcTradeNodes(parentTradeNode, root);
@@ -138,7 +139,9 @@ public class TradeGenerator {
 						for (TradeNode sibling : result) {
 							removeUsedItems(sibling, items);
 						}
-						recipeCandidate.add(items);
+						if (items.size() > 0) {
+							recipeCandidate.add(items);
+						}
 					}
 					recipeCandidates.add(recipeCandidate);
 				}
@@ -153,6 +156,7 @@ public class TradeGenerator {
 			receives.add(getRandomItem(recipe.get(1)));
 			
 			TradeNode node = new TradeNode(receives, giveItem);
+
 			result.add(node);
 			parentTradeNode.addChild(node);
 		}

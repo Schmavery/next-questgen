@@ -5,10 +5,15 @@ import java.util.List;
 public class GameTree {
 	
 	private TradeNode root;
-	private final int TREE_DEPTH = 2;
+	private final int TREE_DEPTH = 5;
 	private TradeGenerator generator;
 	
-
+	private final int MAX_LOCAL_RETRIES = 100;
+	private final int MAX_GLOBAL_RETRIES = 100;
+	
+	private int localRetriesCount = 0;
+	private int globalRetriesCount = 0;
+	
 	public GameTree() {
 		generator = new TradeGenerator();
 		root = generator.generateRootTradeNode();
@@ -28,6 +33,14 @@ public class GameTree {
 		List<TradeNode> children = null;
 		while (children == null) {
 			children = generator.generateTradeNodes(node, root);
+			if (localRetriesCount++ > MAX_LOCAL_RETRIES) {
+				if (globalRetriesCount++ > MAX_GLOBAL_RETRIES) {
+					return false;
+				}
+				localRetriesCount = 0;
+				TradeNode root = generator.generateRootTradeNode();
+				generateTree(root, TREE_DEPTH);
+			}
 		}
 		for (TradeNode n : children){
 			node.parentNode = node;
