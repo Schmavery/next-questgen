@@ -37,11 +37,6 @@ public class TradeNode {
 		if (reward != null)
 			sb.append("Gives: " + reward.getName() + "\n");
 		for (Item receive : receives){
-			if (npc != null){
-				System.out.println(npc.getName()+":"+(receive == null));
-			} else {
-				System.out.println(reward.getName()+(receive == null));
-			}
 			sb.append("Wants: " + receive.getName() + "\n");
 		}
 		if (children != null){
