@@ -28,7 +28,7 @@ public class TradeGenerator {
 	private final double combineTradeRatio = 0.4;
 	
 	//public static final long GEN_SEED = System.currentTimeMillis();
-	public static long GEN_SEED = 5334050692114210746l;
+	public static long GEN_SEED = 1428886472346l;
 	
 	// reward tag --> list of recipes.  recipe is a list of tags
 	private HashMap<String, List<List<String>>> combineRewardToRecipeMap = new HashMap<>();
@@ -36,7 +36,6 @@ public class TradeGenerator {
 	Random rand;
 	
 	public TradeGenerator () {
-		GEN_SEED = new Random().nextLong();
 		rand = new Random(GEN_SEED);
 		System.out.println("Seed: "+GEN_SEED);
 		itemGenerator = new ItemGenerator(itemTagsJsonFileName);
@@ -150,9 +149,12 @@ public class TradeGenerator {
 			List<List<Item>> recipe =  recipeCandidates.get(rand.nextInt(recipeCandidates.size()));
 			if (recipe.size() < 2) return null;
 			List<Item> receives = new ArrayList<>(2);
+			
+			if (!recipe.get(0).isEmpty()) return null;
 			receives.add(getRandomItem(recipe.get(0)));
 			recipe.get(1).removeAll(receives);
-			if (recipe.size() < 1) return null;
+			
+			if (!recipe.get(1).isEmpty()) return null;
 			receives.add(getRandomItem(recipe.get(1)));
 			
 			TradeNode node = new TradeNode(receives, giveItem);
@@ -210,7 +212,10 @@ public class TradeGenerator {
 	}
 	
 	private Item getRandomItem(List<Item> items) {
-		if (items == null || items.size() == 0) return null;
+		if (items == null || items.size() == 0) {
+//			throw new RuntimeException("RETURNING NULL THING");
+			return null;
+		}
 		return items.get(rand.nextInt(items.size()));
 	}
 	
