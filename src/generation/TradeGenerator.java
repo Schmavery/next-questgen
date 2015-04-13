@@ -25,9 +25,10 @@ public class TradeGenerator {
 		
 	private ItemGenerator itemGenerator;
 	private NpcGenerator npcGenerator;
+	private final double combineTradeRatio = 0.4;
 	
 	//public static final long GEN_SEED = System.currentTimeMillis();
-	public static final long GEN_SEED = 1428883615877l;
+	public static long GEN_SEED = 1428886472346l;
 	
 	// reward tag --> list of recipes.  recipe is a list of tags
 	private HashMap<String, List<List<String>>> combineRewardToRecipeMap = new HashMap<>();
@@ -35,6 +36,7 @@ public class TradeGenerator {
 	Random rand;
 	
 	public TradeGenerator () {
+		GEN_SEED = new Random().nextLong();
 		rand = new Random(GEN_SEED);
 		System.out.println("Seed: "+GEN_SEED);
 		itemGenerator = new ItemGenerator(itemTagsJsonFileName);
@@ -82,7 +84,9 @@ public class TradeGenerator {
 	
 	public void removeUsedNPCs(TradeNode node, List<NPC> npcs){
 		if (node.isTrade()){
-			npcs.remove(node.npc);
+			while (npcs.contains(node.npc)) {
+				npcs.remove(node.npc);
+			}
 		}
 		if (node.getChildren() == null) return;
 		for (TradeNode child : node.getChildren()){
@@ -91,14 +95,17 @@ public class TradeGenerator {
 	}
 	
 	public void removeUsedItems(TradeNode node, List<Item> items){
-		items.removeAll(node.getReceives());
+		for (Item item : node.getReceives()) {
+			while(items.contains(item)) {
+				items.remove(item);
+			}
+		}
 		if (node.getChildren() == null) return;
 		for (TradeNode child : node.getChildren()){
 			removeUsedItems(child, items);
 		}
 	}
 	
-	private final double combineTradeRatio = 0.4;
 	
 	// ParentTradeNode is the trade which we will perform after the one being generated.
 	public List<TradeNode> generateTradeNodes (TradeNode parentTradeNode, TradeNode root) {

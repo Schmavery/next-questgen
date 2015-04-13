@@ -150,8 +150,11 @@ public class NpcGenerator {
 	public NPC getNpc (String npcName) {
 		NPC npc = npcs.get(npcName);
 		if (npc == null) {
+			System.out.println("making a new npc with identifier: " + npcName);
 			npc = generateNPC(npcName);
 			npcs.put(npcName, npc);
+		} else {
+			System.out.println(npcName + " already exists");
 		}
 		return npc;
 	}
